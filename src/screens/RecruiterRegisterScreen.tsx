@@ -11,6 +11,7 @@ import { Navigation } from '../types';
 import {
   emailValidator,
   passwordValidator,
+  confirmPassValidator,
   nameValidator,
 } from '../core/utils';
 
@@ -18,20 +19,23 @@ type Props = {
   navigation: Navigation;
 };
 
-const RegisterScreen = ({ navigation }: Props) => {
+const RecruiterRegisterScreen = ({ navigation }: Props) => {
   const [name, setName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
+  const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' });
 
   const _onSignUpPressed = () => {
     const nameError = nameValidator(name.value);
     const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
+    const passwordError = passwordValidator(password.value, confirmPassword.value);
+    const confirmPasswordError = confirmPassValidator(confirmPassword.value, password.value);
 
-    if (emailError || passwordError || nameError) {
+    if (emailError || passwordError || confirmPasswordError || nameError) {
       setName({ ...name, error: nameError });
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
+      setConfirmPassword({ ...confirmPassword, error: confirmPasswordError });
       return;
     }
 
@@ -63,6 +67,7 @@ const RegisterScreen = ({ navigation }: Props) => {
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
+        autoCorrect={false}
         autoComplete="email"
         textContentType="emailAddress"
         keyboardType="email-address"
@@ -75,6 +80,15 @@ const RegisterScreen = ({ navigation }: Props) => {
         onChangeText={text => setPassword({ value: text, error: '' })}
         error={!!password.error}
         errorText={password.error}
+        secureTextEntry
+      />
+      <TextInput
+        label="Re-enter Password"
+        returnKeyType="done"
+        value={confirmPassword.value}
+        onChangeText={text => setConfirmPassword({ value: text, error: '' })}
+        error={!!confirmPassword.error}
+        errorText={confirmPassword.error}
         secureTextEntry
       />
 
@@ -109,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(RegisterScreen);
+export default memo(RecruiterRegisterScreen);

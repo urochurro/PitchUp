@@ -5,24 +5,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {
   HomeScreen,
   LoginScreen,
-  RegisterScreen,
   ForgotPasswordScreen,
   Dashboard,
+  RecruiterOrCandidateScreen,
+  RecruiterRegisterScreen,
+  CandidateRegisterScreen,
 } from './screens';
-
-// const Router = createStackNavigator(
-//   {
-//     HomeScreen,
-//     LoginScreen,
-//     RegisterScreen,
-//     ForgotPasswordScreen,
-//     Dashboard,
-//   },
-//   {
-//     initialRouteName: 'HomeScreen',
-//     headerMode: 'none',
-//   }
-// );
 
 const Stack = createStackNavigator();
 const App = () => {
@@ -31,7 +19,9 @@ const App = () => {
       <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="RecruiterOrCandidateScreen" component={RecruiterOrCandidateScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="RecruiterRegisterScreen" component={RecruiterRegisterScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="CandidateRegisterScreen" component={CandidateRegisterScreen} options={{ headerShown: false }} />
         <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
       </Stack.Navigator>

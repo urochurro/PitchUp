@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }: Props) => (
     </Button>
     <Button
       mode="outlined"
-      onPress={() => navigation.navigate('RegisterScreen')}
+      onPress={() => navigation.navigate('RecruiterOrCandidateScreen')}
     >
       Sign Up
     </Button>
