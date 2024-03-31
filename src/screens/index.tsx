@@ -5,4 +5,5 @@ export { default as RecruiterRegisterScreen } from './RecruiterRegisterScreen';
 export { default as CandidateRegisterScreen } from './CandidateRegisterScreen';
 export { default as ForgotPasswordScreen } from './ForgotPasswordScreen';
 export { default as Dashboard } from './Dashboard';
+export { default as CandidateInfoScreen } from './CandidateInfoScreen';
 

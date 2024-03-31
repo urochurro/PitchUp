@@ -7,9 +7,9 @@ export const emailValidator = (email: string) => {
   return '';
 };
 
-export const passwordValidator = (password: string, confirmPassword: string) => {
+export const passwordValidator = (password: string) => {
   if (!password || password.length <= 0) return 'Password cannot be empty.';
-  if (password.length < 6) return 'Password must be at least 6 characters.';
+  // if (password.length < 6) return 'Password must be at least 6 characters.';
   // if (password !== confirmPassword) return 'Passwords do not match.';
 
 
@@ -17,6 +17,7 @@ export const passwordValidator = (password: string, confirmPassword: string) => 
 };
 
 export const confirmPassValidator = (password: string, confirmPassword: string) => {
+  if (!password || password.length <= 0) return 'Password cannot be empty.';
   if (password !== confirmPassword) return 'Passwords do not match.';
 
   return '';
@@ -24,6 +25,12 @@ export const confirmPassValidator = (password: string, confirmPassword: string) 
 
 export const nameValidator = (name: string) => {
   if (!name || name.length <= 0) return 'Name cannot be empty.';
+
+  return '';
+};
+
+export const companyNameValidator = (name: string) => {
+  if (!name || name.length <= 0) return 'Company Name cannot be empty.';
 
   return '';
 };
