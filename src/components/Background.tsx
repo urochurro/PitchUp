@@ -3,6 +3,8 @@ import {
   ImageBackground,
   StyleSheet,
   KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 type Props = {
@@ -15,9 +17,11 @@ const Background = ({ children }: Props) => (
     resizeMode="repeat"
     style={styles.background}
   >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       {children}
     </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   </ImageBackground>
 );
 
@@ -28,7 +32,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 20,
+    paddingVertical: 50,
+    paddingHorizontal: 20,
     width: '100%',
     maxWidth: 340,
     alignSelf: 'center',
