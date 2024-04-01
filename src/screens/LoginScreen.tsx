@@ -28,14 +28,14 @@ const LoginScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    navigation.navigate('RecruiterHomepage');
   };
 
   return (
     <Background>
       <BackButton goBack={() => navigation.navigate('HomeScreen')} />
 
-      <Logo />
+      {/* <Logo /> */}
 
       <Header>Welcome back.</Header>
 

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Navigation } from '../types';
@@ -14,7 +14,7 @@ type Props = {
     navigation: Navigation;
 };
 
-const UserRegistrationForm = ({ navigation }: Props) => {
+const CandidateInfoScreen = ({ navigation }: Props) => {
     const { control, handleSubmit } = useForm();
 
     const [open, setOpen] = useState(false);
@@ -496,6 +496,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserRegistrationForm;
+export default memo(CandidateInfoScreen);
 
 

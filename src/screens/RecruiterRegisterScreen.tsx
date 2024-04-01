@@ -43,14 +43,14 @@ const RecruiterRegisterScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    navigation.navigate('RecruiterHomepage');
   };
 
   return (
     <Background>
       <BackButton goBack={() => navigation.navigate('HomeScreen')} />
 
-      <Logo />
+      {/* <Logo /> */}
 
       <Header>Create Account</Header>
 

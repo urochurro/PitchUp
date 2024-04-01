@@ -12,7 +12,7 @@ type Props = {
 
 const Dashboard = ({ navigation }: Props) => (
   <Background>
-    <Logo />
+    {/* <Logo /> */}
     <Header>Let’s start</Header>
     <Paragraph>
       Your amazing app starts here. Open you favourite code editor and start

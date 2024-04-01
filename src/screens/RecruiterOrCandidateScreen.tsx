@@ -14,7 +14,7 @@ type Props = {
 const RecruiterOrCandidateScreen = ({ navigation }: Props) => (
     <Background>
         <BackButton goBack={() => navigation.navigate('HomeScreen')} />
-        <Logo />
+        {/* <Logo /> */}
         <Header>Sign Up</Header>
 
         <Paragraph>

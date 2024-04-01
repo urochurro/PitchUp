@@ -1,0 +1,38 @@
+{
+    "mode": "Work from Home",
+    "jobId": "008467ec-0002-4a31-9b5b-2f838f2ca1a0",
+    "responsibilities": "Manage the branding of specific products or product lines. Create product launch plans and marketing campaigns. Ensure consistent product messaging and brand representation.",
+    "companyName": "Bayer AG",
+    "jobTitle": "Product Brand Manager",
+    "jobDescription": "A Product Brand Manager focuses on promoting and managing the brand identity of specific products or product lines within a companys portfolio.",
+    "upperSalaryRange": 1200000,
+    "companyWebsite": "www.bayer.com",
+    "companySize": "92028",
+    "lowerSalaryRange": 630000,
+    "Requires_skill": [
+        "branding",
+        "product lifecycle management",
+        "brand strategy",
+        "market research",
+        "consumer behavior",
+        "competitive analysis",
+        "marketing analytics",
+        "product positioning"
+    ],
+    "Located_in_city": {
+        "country": "India",
+        "name": "Bangalore"
+    },
+    "Requires_job_type": {
+        "name": "Part Time"
+    },
+    "Requires_qualification": {
+        "name": "Master of Commerce (MCom)"
+    },
+    "Requires_experience": {
+        "name": "4"
+    },
+    "Offers_job_role": {
+        "name": "Brand Manager"
+    }
+}
