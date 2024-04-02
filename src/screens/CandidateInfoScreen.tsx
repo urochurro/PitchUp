@@ -261,6 +261,8 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="country"
                 defaultValue=""
             />
+            {/* add spacer */}
+            <View style={{ height: 20 }}></View>
             
             <Controller
                 control={control}
@@ -285,6 +287,9 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="city"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
             <Controller
                 control={control}
                 render={({ field }) => (
@@ -308,6 +313,9 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="languages"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
             <Controller
                 control={control}
                 render={({ field }) => (
@@ -331,6 +339,9 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="role"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
             <Controller
                 control={control}
                 render={({ field }) => (
@@ -353,6 +364,9 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="jobType"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
 
             <Controller
                 control={control}
@@ -377,6 +391,10 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="highestQualification"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
+
             <Controller
                 control={control}
                 render={({ field }) => (
@@ -399,6 +417,10 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="workMode"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
+
             <Controller
                 control={control}
                 render={({ field }) => (
@@ -425,6 +447,9 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 name="skills"
                 defaultValue=""
             />
+
+                    {/* add spacer */}
+                    <View style={{ height: 20 }}></View>
             
             <Controller
                 control={control}

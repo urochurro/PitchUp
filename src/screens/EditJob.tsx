@@ -1,8 +1,10 @@
 import React, {memo, useState} from 'react';
 import { View, StyleSheet, ScrollView,  KeyboardAvoidingView} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
-import { TextInput, Button, Chip, HelperText, RadioButton, Menu, Divider, Card, Title } from 'react-native-paper';
+import { Button, Chip, HelperText, RadioButton, Menu, Divider, Card, Title } from 'react-native-paper';
 import { Navigation } from '../types';
+import TextInput from '../components/TextInput';
+
 
 type Props = {
   navigation: Navigation;

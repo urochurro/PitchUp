@@ -15,7 +15,10 @@ import {
   DoneScreen,
   EditJob,
   JobList,
-  RecruiterHomepage
+  RecruiterHomepage,
+  SettingsScreen,
+  CandidateHomeScreen,
+  MatchScreen,
 } from './screens';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -34,9 +37,9 @@ const HomeStack = () => (
   </Stack.Navigator>
 );
 
-const MatchScreen = () => (
+const MatchScreen1 = () => (
   <Stack.Navigator>
-    <Stack.Screen name="RecruiterHomepage" component={RecruiterHomepage} options={{ headerShown: false }} />
+    <Stack.Screen name="MatchScreen" component={MatchScreen} options={{ headerShown: false }} />
     {/* Add match related screens */}
   </Stack.Navigator>
 );
@@ -51,9 +54,9 @@ const ProfileScreen = () => (
   </Stack.Navigator>
 );
 
-const SettingsScreen = () => (
+const SettingsScreen1 = () => (
   <Stack.Navigator>
-    <Stack.Screen name="RecruiterHomepage" component={RecruiterHomepage} options={{ headerShown: false }} />
+    <Stack.Screen name="SettingsScreen" component={SettingsScreen} options={{ headerShown: false }} />
     {/* Add settings related screens */}
   </Stack.Navigator>
 );
@@ -104,7 +107,7 @@ const App = () => {
                 iconName = focused ? 'home' : 'home-outline';
               } else if (route.name === 'Match') {
                 iconName = focused ? 'heart' : 'heart-outline';
-              } else if (route.name === 'Profile') {
+              } else if (route.name === 'Jobs') {
                 iconName = focused ? 'person' : 'person-outline';
               } else if (route.name === 'Settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
@@ -116,9 +119,9 @@ const App = () => {
           })}
         >
           <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
-          <Tab.Screen name="Match" component={MatchScreen} options={{ headerShown: false, tabBarBadge: 3 }} />
-          <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-          <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+          <Tab.Screen name="Match" component={MatchScreen1} options={{ headerShown: false, tabBarBadge: 3 }} />
+          <Tab.Screen name="Jobs" component={ProfileScreen} options={{ headerShown: false }} />
+          <Tab.Screen name="Settings" component={SettingsScreen1} options={{ headerShown: false }} />
         </Tab.Navigator>
       ) : (
         <AuthStack />

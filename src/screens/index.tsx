@@ -11,3 +11,6 @@ export { default as JobList } from './JobList';
 export { default as RecruiterHomepage } from './RecruiterHomepage';
 export { default as DoneScreen } from './DoneScreen';
 export { default as EditJob } from './EditJob';
+export { default as SettingsScreen } from './settingsScreen';
+export { default as CandidateHomeScreen } from './CandidateHomeScreen';
+export { default as MatchScreen } from './MatchScreen';

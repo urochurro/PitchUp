@@ -13,10 +13,10 @@ type Props = {
 const HomeScreen = ({ navigation }: Props) => (
   <Background>
     {/* <Logo /> */}
-    <Header>Login Template</Header>
+    <Header>PitchUp</Header>
 
     <Paragraph>
-      The easiest way to start with your amazing application.
+      Redefining recruitment paradigms for the modern era.
     </Paragraph>
     <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
       Login

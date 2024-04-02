@@ -46,10 +46,9 @@ const JobList = ({ navigation }: Props) => {
   };
 
   return (
-    <Background>
-  <Header>Job List</Header>
 
     <View style={styles.container}>
+      <Text style={styles.title}>Job List</Text>
       
       {jobs.map(job => (
         <Card key={job.jobId} style={styles.card}>
@@ -84,7 +83,6 @@ const JobList = ({ navigation }: Props) => {
         Add Job
       </Button>
     </View>
-    </Background>
   );
 };
 export default memo(JobList);
@@ -93,6 +91,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 40,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    marginTop: 25,
+    textAlign: 'center',
   },
   card: {
     marginBottom: 10,

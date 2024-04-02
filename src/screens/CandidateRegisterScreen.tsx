@@ -96,7 +96,7 @@ const RecruiterRegisterScreen = ({ navigation }: Props) => {
 
 
       <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
-        Sign Up
+        Next
       </Button>
 
       <View style={styles.row}>
