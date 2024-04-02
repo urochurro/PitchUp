@@ -9,12 +9,15 @@ import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import { emailValidator, passwordValidator } from '../core/utils';
 import { Navigation } from '../types';
+import { useLogin } from '../context/LoginProvider';
+import { set } from 'react-hook-form';
 
 type Props = {
   navigation: Navigation;
 };
 
 const LoginScreen = ({ navigation }: Props) => {
+  const { setIsLoggedIn, setIsRecruiter } = useLogin();
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
 
@@ -28,7 +31,9 @@ const LoginScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('RecruiterHomepage');
+
+    setIsRecruiter(true); // #IMP: set to true if recruiter
+    setIsLoggedIn(true);
   };
 
   return (

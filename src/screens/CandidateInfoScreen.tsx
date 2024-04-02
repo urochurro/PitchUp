@@ -9,12 +9,14 @@ import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import Button from '../components/Button';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useLogin } from '../context/LoginProvider';
 
 type Props = {
     navigation: Navigation;
 };
 
 const CandidateInfoScreen = ({ navigation }: Props) => {
+    const { setIsLoggedIn, setIsRecruiter } = useLogin();
     const { control, handleSubmit } = useForm();
 
     const [open, setOpen] = useState(false);
@@ -169,6 +171,8 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
     const onSubmit = (data) => {
         // Handle form submission (e.g., send data to server)
         console.log(data);
+        setIsLoggedIn(true);
+        setIsRecruiter(false);
     };
 
     return (

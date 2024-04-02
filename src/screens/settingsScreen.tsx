@@ -2,11 +2,14 @@ import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { List, Switch, Text, Divider } from 'react-native-paper';
 import { Navigation } from '../types';
+import Button from '../components/Button';
+import { useLogin } from '../context/LoginProvider';
 
 type Props = {
   navigation: Navigation;
 };
 const SettingsScreen = ({ navigation }: Props) => {
+  const { setIsLoggedIn, setIsRecruiter } = useLogin();
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(false);
   const [darkModeEnabled, setDarkModeEnabled] = React.useState(false);
 
@@ -86,6 +89,7 @@ const SettingsScreen = ({ navigation }: Props) => {
         <Text>Help Center</Text>
         <Text>Data Privacy Policy</Text>
       </View>
+      <Button mode={'contained'} onPress={() => {setIsLoggedIn(false); setIsRecruiter(false);}}>Log out</Button>
     </View>
   );
 };

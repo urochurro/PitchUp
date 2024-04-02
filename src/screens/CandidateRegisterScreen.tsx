@@ -19,7 +19,8 @@ type Props = {
   navigation: Navigation;
 };
 
-const RecruiterRegisterScreen = ({ navigation }: Props) => {
+const CandidateRegisterScreen = ({ navigation }: Props) => {
+
   const [name, setName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
@@ -39,7 +40,7 @@ const RecruiterRegisterScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('CandidateInfoScreen');
+    
   };
 
   return (
@@ -126,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(RecruiterRegisterScreen);
+export default memo(CandidateRegisterScreen);

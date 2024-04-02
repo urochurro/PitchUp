@@ -8,6 +8,7 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import { Navigation } from '../types';
+import { useLogin } from '../context/LoginProvider';
 import {
   emailValidator,
   passwordValidator,
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const RecruiterRegisterScreen = ({ navigation }: Props) => {
+  const { setIsLoggedIn, setIsRecruiter } = useLogin();
   const [name, setName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
@@ -43,7 +45,8 @@ const RecruiterRegisterScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('RecruiterHomepage');
+    setIsLoggedIn(true);
+    setIsRecruiter(true);
   };
 
   return (
