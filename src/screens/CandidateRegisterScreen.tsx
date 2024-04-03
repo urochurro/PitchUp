@@ -8,6 +8,7 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import { Navigation } from '../types';
+import CandidateInfoScreen from './CandidateInfoScreen';
 import {
   emailValidator,
   passwordValidator,
@@ -40,7 +41,7 @@ const CandidateRegisterScreen = ({ navigation }: Props) => {
       return;
     }
 
-    
+    navigation.navigate('CandidateInfoScreen');
   };
 
   return (
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: theme.colors.secondary,
   },
 });
 

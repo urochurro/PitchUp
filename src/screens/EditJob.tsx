@@ -1,9 +1,10 @@
 import React, {memo, useState} from 'react';
-import { View, StyleSheet, ScrollView,  KeyboardAvoidingView} from 'react-native';
+import { View, StyleSheet, ScrollView,  KeyboardAvoidingView, Text} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Chip, HelperText, RadioButton, Menu, Divider, Card, Title } from 'react-native-paper';
 import { Navigation } from '../types';
 import TextInput from '../components/TextInput';
+import Header from '../components/Header';
 
 
 type Props = {
@@ -37,6 +38,7 @@ const EditJob = ({ navigation }: Props) => {
 
   return (
     <View style={styles.container}>
+      <Header color='#000'>Edit Job</Header>
       <ScrollView contentContainerStyle={styles.formContainer}>
       <View style={styles.inputContainer}>
           <Controller

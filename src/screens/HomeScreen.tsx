@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Button from '../components/Button';
 import Paragraph from '../components/Paragraph';
 import { Navigation } from '../types';
+import { View } from 'react-native';
 
 type Props = {
   navigation: Navigation;
@@ -12,17 +13,17 @@ type Props = {
 
 const HomeScreen = ({ navigation }: Props) => (
   <Background>
-    {/* <Logo /> */}
-    <Header>PitchUp</Header>
+    <Logo />
 
     <Paragraph>
-      Redefining recruitment paradigms for the modern era.
+      Elevating Careers, One Pitch at a Time
     </Paragraph>
-    <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
+    <View style={{ height: 40 }} />
+    <Button mode="outlined" onPress={() => navigation.navigate('LoginScreen')}>
       Login
     </Button>
     <Button
-      mode="outlined"
+      mode="contained"
       onPress={() => navigation.navigate('RecruiterOrCandidateScreen')}
     >
       Sign Up

@@ -114,12 +114,16 @@ const RecruiterStack = () => (
         // You can return any component here that you want to appear as the icon.
         return <Ionicons name={iconName} size={size} color={color} />;
       },
+      tabBarStyle: { backgroundColor: '#141414', borderTopWidth: 0},
+      tabBarActiveTintColor: 'white',
+      tabBarInactiveTintColor: '#363737',
+      // tabBarBadgeStyle: { backgroundColor: '#141414', color: 'white', fontWeight: 'bold'}
     })}
   >
-    <Tab.Screen name="Home" component={RecruiterHomeStack} options={{ headerShown: false }} />
-    <Tab.Screen name="Match" component={MatchStack} options={{ headerShown: false, tabBarBadge: 3 }} />
-    <Tab.Screen name="Jobs" component={JobStack} options={{ headerShown: false }} />
-    <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false }} />
+    <Tab.Screen name="Home" component={RecruiterHomeStack} options={{ headerShown: false, tabBarShowLabel: false }} />
+    <Tab.Screen name="Match" component={MatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
+    <Tab.Screen name="Jobs" component={JobStack} options={{ headerShown: false, tabBarShowLabel: false }} />
+    <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false, tabBarShowLabel: false }} />
   </Tab.Navigator>
 );
 
@@ -142,12 +146,16 @@ const CandidateStack = () => (
         // You can return any component here that you want to appear as the icon.
         return <Ionicons name={iconName} size={size} color={color} />;
       },
+      tabBarStyle: { backgroundColor: '#141414', borderTopWidth: 0 },
+      tabBarActiveTintColor: 'white',
+      tabBarInactiveTintColor: '#363737',
+      // tabBarBadgeStyle: { backgroundColor: '#141414', color: 'white', fontWeight: 'bold'}
     })}
   >
-    <Tab.Screen name="Home" component={CandidateHomeStack} options={{ headerShown: false }} />
-    <Tab.Screen name="Match" component={MatchStack} options={{ headerShown: false, tabBarBadge: 3 }} />
-    <Tab.Screen name="Profile" component={ProfileStack} options={{ headerShown: false }} />
-    <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false }} />
+    <Tab.Screen name="Home" component={CandidateHomeStack} options={{ headerShown: false, tabBarShowLabel: false }} />
+    <Tab.Screen name="Match" component={MatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
+    <Tab.Screen name="Profile" component={ProfileStack} options={{ headerShown: false, tabBarShowLabel: false }} />
+    <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false, tabBarShowLabel: false }} />
   </Tab.Navigator>
 );
 

@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import { List, Switch, Text, Divider } from 'react-native-paper';
 import { Navigation } from '../types';
 import Button from '../components/Button';
 import { useLogin } from '../context/LoginProvider';
+import Header from '../components/Header';
 
 type Props = {
   navigation: Navigation;
@@ -22,9 +23,8 @@ const SettingsScreen = ({ navigation }: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Settings</Text>
-
+    <ScrollView style={styles.container}>
+      <Header color='#000'>Settings</Header>
       <List.Section>
         <List.Subheader>Account</List.Subheader>
         <List.Item
@@ -89,8 +89,10 @@ const SettingsScreen = ({ navigation }: Props) => {
         <Text>Help Center</Text>
         <Text>Data Privacy Policy</Text>
       </View>
+      <View style={{ height: 20 }} />
       <Button mode={'contained'} onPress={() => {setIsLoggedIn(false); setIsRecruiter(false);}}>Log out</Button>
-    </View>
+      <View style={{ height: 70 }} />
+    </ScrollView>
   );
 };
 
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,

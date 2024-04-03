@@ -66,6 +66,7 @@ export default memo(MatchScreen);
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 50,
+    backgroundColor: "#fff",
   },
   card: {
     marginVertical: 10,

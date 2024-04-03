@@ -40,7 +40,8 @@ const LoginScreen = ({ navigation }: Props) => {
     <Background>
       <BackButton goBack={() => navigation.navigate('HomeScreen')} />
 
-      {/* <Logo /> */}
+      <Logo />
+      <View style={{ height: 40 }} />
 
       <Header>Welcome back.</Header>
 
@@ -106,7 +107,8 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: theme.colors.secondary,
+    // textDecorationLine: 'underline',
   },
 });
 

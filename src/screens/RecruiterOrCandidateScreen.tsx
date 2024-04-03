@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import Paragraph from '../components/Paragraph';
 import BackButton from '../components/BackButton';
 import { Navigation } from '../types';
+import { View } from 'react-native';
 
 type Props = {
     navigation: Navigation;
@@ -14,7 +15,8 @@ type Props = {
 const RecruiterOrCandidateScreen = ({ navigation }: Props) => (
     <Background>
         <BackButton goBack={() => navigation.navigate('HomeScreen')} />
-        {/* <Logo /> */}
+        <Logo />
+        <View style={{ height: 40 }} />
         <Header>Sign Up</Header>
 
         <Paragraph>

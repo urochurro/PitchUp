@@ -240,7 +240,7 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 />
                     
             ))}
-            <Button onPress={addExperienceField} >Add Experience</Button>
+            <Button mode={'contained'} onPress={addExperienceField} >Add Experience</Button>
 
             <Controller
                 control={control}
@@ -500,7 +500,7 @@ const CandidateInfoScreen = ({ navigation }: Props) => {
                 defaultValue=""
             />
 
-            <Button mode={'contained'} onPress={handleSubmit(onSubmit)} style={styles.button} >Submit</Button>
+            <Button mode={'outlined'} onPress={handleSubmit(onSubmit)} style={styles.button} >Submit</Button>
             </ScrollView>
             </View>
         </Background>

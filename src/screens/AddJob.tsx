@@ -84,9 +84,8 @@ const AddJob = ({ navigation }: Props) => {
 
   return (
     // <KeyboardAvoidingView behavior="padding">
-    <Background>
-    <Header>Add Job</Header>
     <View style={styles.container}>
+    <Header color='#000'>Add Job</Header>
       <ScrollView style={styles.formContainer}>
         <View style={styles.inputContainer}>
           <Controller 
@@ -460,9 +459,8 @@ const AddJob = ({ navigation }: Props) => {
           Submit
         </Button>
       </ScrollView>
-    </View>
     {/*  </KeyboardAvoidingView> */}
-    </Background >
+    </View >
   );
 };
 
@@ -472,7 +470,8 @@ export default memo(AddJob);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
     // paddingTop: 50,
   },
   formContainer: {
