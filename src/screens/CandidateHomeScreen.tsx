@@ -83,7 +83,7 @@ const candidateHomeScreenData = [
   },
 ];
 
-export const CandidateHomeScreen = () => {
+const CandidateHomeScreen = () => {
 
   //Dummy Navbar
   const MusicRoute = () => <Text>Music</Text>;
@@ -270,6 +270,8 @@ export const CandidateHomeScreen = () => {
     </SafeAreaView>
   );
 }
+
+export default memo(CandidateHomeScreen);
 
 const styles = StyleSheet.create({
   container: {
