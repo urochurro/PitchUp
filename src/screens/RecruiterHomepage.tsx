@@ -1,11 +1,10 @@
 import React, { memo, useRef, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Modal, ScrollView} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Modal, ScrollView} from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import { Card, Title, Paragraph, Chip, PaperProvider, Menu, Button, Divider} from 'react-native-paper';
-import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for button icons
-// import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
-// import { DoneScreen } from './DoneScreen';
+import { Card, Title, Paragraph, Chip, PaperProvider, Menu, Button, Divider, FAB, Text} from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 import { Navigation } from '../types';
+import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 type Props = {
   navigation: Navigation;
@@ -27,15 +26,16 @@ const profiles = [
 
 const BasicInfoCard = ({ profileData }) => {
   return (
-    <Card style={styles.card}>
+    <Card mode="elevated" style={styles.card}>
       <Card.Content>
-        <Title>{`${profileData.first_name} ${profileData.last_name}`}</Title>
-        <Text style={styles.cardtextmedium}>{profileData.headline}</Text>
-        <Text></Text>
-        <Text style={{textAlign: 'justify'}}>{profileData.about}</Text>
+        <Text variant="titleLarge" style={styles.infoCardText}>{`${profileData.first_name} ${profileData.last_name}`}</Text>
+        <Text variant="bodyLarge" style={styles.infoCardText}>{profileData.headline}</Text>
+        <Divider style={{ marginVertical: 10 }} />
+        <Text variant="bodyMedium" style={styles.infoCardText}>{profileData.about}</Text>
+        <Divider style={{ marginVertical: 10 }} />
         <View style={styles.skillsContainer}>
           {profileData.skills.slice(0, 5).map((skill, index) => (
-            <Chip key={index} style={styles.skillChip}>{skill}</Chip>
+            <Chip key={index} style={styles.skillChip} textStyle={{ color: 'white' }}>{skill}</Chip>
           ))}
         </View>
         {/* Render other profile details as needed */}
@@ -56,13 +56,13 @@ const WorkExperienceCard = ({ profileData }) => {
   return (
     <Card style={styles.card}>
       <Card.Content>
-      <Title>Work Experience</Title>
-      <Text></Text>
+      <Text variant="titleLarge" style={styles.infoCardText}>Work Experience</Text>
+      <Divider style={{ marginVertical: 20 }} />
       {workExperience.map((job, index) => (
         <View key={index} style={{ marginBottom: 10 }}>
-          <Text style={styles.cardtextlarge}>{job.company}</Text>
-          <Text style={styles.cardtextmedium}>{job.jobTitle}</Text>
-          <Text style={styles.cardtextsmall}>{job.jobLocation}</Text>
+          <Text style={styles.cardtextlarge} >{job.company}</Text>
+          <Text style={styles.cardtextmedium} >{job.jobTitle}</Text>
+          <Text style={styles.cardtextsmall} >{job.jobLocation}</Text>
           <Text style={styles.cardtextsmall}>{job.jobDateRange}</Text>
           {index !== workExperience.length - 1 && <View style={styles.separator} />}
         </View>
@@ -84,8 +84,8 @@ const EducationHistoryCard = ({ profileData }) => {
   return (
     <Card style={styles.card}>
       <Card.Content>
-      <Title>Education History</Title>
-      <Text></Text>
+      <Text variant="titleLarge" style={styles.infoCardText}>Education History</Text>
+      <Divider style={{ marginVertical: 20 }} />
       {educationHistory.map((education, index) => (
         <View key={index} style={{ marginBottom: 10 }}>
           <Text style={styles.cardtextlarge}>{education.school}</Text>
@@ -118,12 +118,9 @@ const RecruiterHomepage = ({ navigation }: Props) => {
       setVideoIndex(videoIndex + 1);
       setProfileIndex(profileIndex + 1);
     } else {
+      console.log('You are done!');
       navigation.navigate('DoneScreen')
-      // return (
-      //   <PaperProvider>
-      //     <DoneScreen />
-      //   </PaperProvider>
-      // );// Navigate to the "DoneScreen" when all data has been shown
+      // navigation.navigate('DoneScreen' as never); // Navigate to the "DoneScreen" when all data has been shown
     }
   };
 
@@ -135,6 +132,7 @@ const RecruiterHomepage = ({ navigation }: Props) => {
       setProfileIndex(profileIndex + 1);
     } else {
       console.log('You are done!');
+      navigation.navigate('DoneScreen')
       // navigation.navigate('DoneScreen' as never); // Navigate to the "DoneScreen" when all data has been shown
     }
   };
@@ -186,7 +184,7 @@ const RecruiterHomepage = ({ navigation }: Props) => {
       <Menu
           visible={visible}
           onDismiss={closeMenu}
-          anchor={<Button onPress={openMenu} style={{backgroundColor: 'rgba(0, 0, 0, 0.5)',borderRadius: 10}}><Ionicons name="funnel" size={30} color="white" /></Button>}>
+          anchor={<Button onPress={openMenu} style={{backgroundColor: 'transparent',borderRadius: 100, borderColor:"white",borderWidth:1}}><Ionicons name="funnel" size={30} color="white" /></Button>}>
           <Menu.Item onPress={() => {}} title="Item 1" />
           <Menu.Item onPress={() => {}} title="Item 2" />
           <Divider />
@@ -195,33 +193,46 @@ const RecruiterHomepage = ({ navigation }: Props) => {
         
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{`${profileData.first_name} ${profileData.last_name}`}</Text>
-        <Text style={styles.text}>{profileData.headline}</Text>
+      <Text variant="headlineLarge" style={styles.videotext}>{`${profileData.first_name} ${profileData.last_name}`}</Text>
+          <Text variant="bodyMedium" style={styles.videotext}>{profileData.headline}</Text>
       </View>
 
-      <View style={styles.bottomButtonContainer}>
-      <TouchableOpacity style={styles.bottomButton} onPress={handleCancelPress}>
-        <Ionicons name="close" size={24} color="grey" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.bottomButton} onPress={() => setModalVisible(true)}>
-        <Ionicons name="arrow-down" size={24} color="white" />
-        <Text style={styles.bottomButtonText}>Know More</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.bottomButton} onPress={handleHeartPress}>
-        <Ionicons name="heart" size={24} color="red" />
-      </TouchableOpacity>
-    </View>
+
+<FAB
+        color="black"
+        mode="elevated"
+        style={styles.fabLike}
+        icon="thumb-up"
+        onPress={handleHeartPress}
+      />
+      <FAB
+        color="white"
+        mode="elevated"
+        style={styles.fabKnowMore}
+        icon="arrow-down"
+        onPress={() => setModalVisible(true)}
+        label='Know More'
+      />
+      <FAB
+        color="black"
+        mode="elevated"
+        style={styles.fabDislike}
+        icon="close-thick"
+        onPress={handleCancelPress}
+      />
+
 
       {/* <Button title="Open Profile" onPress={() => setModalVisible(true)} /> */}
       <Modal visible={modalVisible} animationType="slide">
       <ScrollView contentContainerStyle={styles.modalContainer}>
           {profileData && (
             <>
+              <Button onPress={() => setModalVisible(false)} style={{alignSelf: "flex-start",paddingVertical:10}} icon={"close"}>Close</Button>
               <BasicInfoCard profileData={profileData} />
               {profileData.work_experience.length > 0 && <WorkExperienceCard profileData={profileData} />}
               {profileData.education_history.length > 0 && <EducationHistoryCard profileData={profileData} />}
               {/* Add more cards for other information */}
-              <Button onPress={() => setModalVisible(false)} >Close</Button>
+              
             </>
           )}
         </ScrollView>
@@ -246,7 +257,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     position: 'absolute',
-    bottom: 70,
+    bottom: 100,
     left: 20,
   },
   name: {
@@ -263,18 +274,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 20,
+    marginTop: 20,
+    paddingHorizontal: 15,
+    backgroundColor: "white",
   },
   // card: {
   //   marginVertical: 10,
   //   width: '90%',
   // },
   skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
   },
   skillChip: {
     margin: 2,
+    paddingVertical: 0,
+    backgroundColor: "#083767",
+    color: "white",
   },
   
   card: {
@@ -282,7 +299,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
-    width: '90%',
+    width: '100%',
     alignSelf: 'center',
     elevation: 3,
   },
@@ -299,34 +316,38 @@ const styles = StyleSheet.create({
   cardtextlarge: {
     fontSize: 20,
     fontWeight: 'bold',
+    fontFamily: 'Helvetica',
   },
   cardtextmedium: {
     fontSize: 16,
+    fontFamily: 'Helvetica',
   },
   cardtextsmall: {
     fontSize: 12,
     color: '#666',
+    fontFamily: 'Helvetica',
   },
   bottomButtonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingBottom: 20,
     position: 'absolute',
     bottom: 0,
     width: '100%',
   },
   bottomButton: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: 'white',
     borderRadius: 25,
     padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 30,
   },
   bottomButtonText: {
     color: 'white',
-    marginLeft: 5,
+    marginLeft: 3,
   },
   filterIcon: {
     flexDirection: 'row',
@@ -337,5 +358,45 @@ const styles = StyleSheet.create({
     paddingLeft:310,
     position: 'absolute',
     width: '100%',
+  },
+  fabKnowMore: {
+    color: "transparent",
+    borderWidth: 1,
+    borderColor: 'white',
+    position: "absolute",
+    margin: 16,
+    marginBottom: 30,
+    right: '28%',
+    bottom: 0,
+    backgroundColor: "transparent",
+    borderRadius: 30,
+  },
+  fabLike: {
+    color: "white",
+    position: "absolute",
+    margin: 16,
+    marginBottom: 30,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "white",
+    borderRadius: 30,
+  },
+  fabDislike: {
+    position: "absolute",
+    margin: 16,
+    left: 0,
+    bottom: 0,
+    backgroundColor: "white",
+    marginBottom: 30,
+    borderRadius: 30,
+    zIndex: 1000,
+  },
+  videotext: {
+    color: 'white',
+    fontFamily: 'Helvetica',
+  },
+  infoCardText: {
+    textAlign: 'justify',
+    fontFamily: "Helvetica",
   },
 });
