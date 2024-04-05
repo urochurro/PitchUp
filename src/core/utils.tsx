@@ -36,3 +36,30 @@ export const companyNameValidator = (name: string) => {
 
   return '';
 };
+export function fetchJobs(userId): Promise<any> {
+  return axios.get("http://192.168.0.112:3000/allJobs/"+userId)
+    .then((response: AxiosResponse) => {
+      const responseData = response.data;
+      // console.log('Data fetched:', responseData);
+      
+      return responseData;
+    })
+    .catch((error: any) => {
+      console.error('Error fetching data:', error);
+      return {};
+    });
+}
+
+export function fetchCandidateInfo(jobId): Promise<any> {
+  return axios.get("http://192.168.0.112:3000/getCandidatesByJobRole/"+jobId)
+    .then((response: AxiosResponse) => {
+      const responseData = response.data;
+      // console.log('Data fetched:', responseData);
+      
+      return responseData;
+    })
+    .catch((error: any) => {
+      console.error('Error fetching data:', error);
+      return {};
+    });
+}
