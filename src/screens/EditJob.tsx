@@ -2,18 +2,20 @@ import React, {memo, useState} from 'react';
 import { View, StyleSheet, ScrollView,  KeyboardAvoidingView, Text} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { Button, Chip, HelperText, RadioButton, Menu, Divider, Card, Title } from 'react-native-paper';
-import { Navigation } from '../types';
+// import { Navigation } from '../types';
 import TextInput from '../components/TextInput';
 import Header from '../components/Header';
+import { useRoute } from '@react-navigation/native'; 
+import axios from 'axios';
+
+// type Props = {
+//   navigation: Navigation;
+// };
 
 
-type Props = {
-  navigation: Navigation;
-};
-
-
-const EditJob = ({ navigation }: Props) => {
-    const jobdata = require('../assets/jobdata.json')
+const EditJob = ({ navigation }) => {
+    const route = useRoute();
+    const jobdata = route.params["jobData"];
   const { control, handleSubmit, formState: { errors }  } = useForm();
   const [enteredSkill, setEnteredSkill] = useState(''); // State to store entered skill
   const [skills, setSkills] = useState([]); // State to store list of skills
@@ -22,7 +24,26 @@ const EditJob = ({ navigation }: Props) => {
     data['Skills'] = skills; // Add the list of skills to the form data
     console.log("Data:", data); // Log the form data
     
-    // console.log("Skills:", skills); // Log the list of skills
+    axios.put('http://192.168.0.112:3000/editJob/'+ jobdata['jobId'], data, {
+      timeout: 100000
+    })
+    .then(function (response) {
+      console.log(response);
+      navigation.navigate('JobList');
+    })
+    .catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.log('Server Error:', error.response.status);
+        console.log('Response Data:', error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('No Response:', error.request);
+      } else {
+        // Something else happened while setting up the request
+        console.log('Request Error:', error.message);
+      }
+    });
   };
 
   const handleAddSkill = () => {
@@ -86,7 +107,7 @@ const EditJob = ({ navigation }: Props) => {
                 error={errors.companyWebsite ? true : false}
               />
             )}
-            name="company Website"
+            name="Company Website"
             defaultValue={`${jobdata.companyWebsite}`}
           />
         </View>
