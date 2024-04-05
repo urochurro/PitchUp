@@ -70,7 +70,7 @@ const SettingsScreen = ({ navigation }: Props) => {
       <Divider />
 
       <List.Section>
-      <List.Subheader>Screen Mode</List.Subheader>
+        <List.Subheader>Screen Mode</List.Subheader>
         <List.Item
           title="Dark Mode"
           left={() => <List.Icon icon="brightness-4" />}
@@ -90,7 +90,7 @@ const SettingsScreen = ({ navigation }: Props) => {
         <Text>Data Privacy Policy</Text>
       </View>
       <View style={{ height: 20 }} />
-      <Button mode={'contained'} onPress={() => {setIsLoggedIn(false); setIsRecruiter(false);}}>Log out</Button>
+      <Button mode={'contained'} onPress={() => { setIsLoggedIn(false); setIsRecruiter(false); }}>Log out</Button>
       <View style={{ height: 70 }} />
     </ScrollView>
   );
@@ -101,7 +101,8 @@ export default memo(SettingsScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
     backgroundColor: '#fff',
   },
   title: {

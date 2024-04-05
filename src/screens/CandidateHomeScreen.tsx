@@ -5,13 +5,18 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
-  View
-}
-  from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { FAB, Card, Text, Icon, Chip, Divider, BottomNavigation } from "react-native-paper";
-
-
+  View,
+  Animated,
+} from "react-native";
+import {
+  FAB,
+  Card,
+  Text,
+  Icon,
+  Chip,
+  Divider,
+  Appbar,
+} from "react-native-paper";
 
 const { width } = Dimensions.get("window");
 const cardWidth = width * 0.9;
@@ -20,7 +25,7 @@ const candidateHomeScreenData = [
     "User Id": 1,
     "Company Name": "Kolkata Knight Riders",
     "Company Size": 48199,
-    "Company Website": "www.google.com",
+    "Company Website": "https://www.kkr.in/",
     City: "Mumbai",
     Country: "India",
     "Job Role": "HR Generalist",
@@ -40,100 +45,93 @@ const candidateHomeScreenData = [
   },
   {
     "User Id": 2,
-    "Company Name": "dddddd",
-    "Company Size": 48199,
-    "Company Website": "www.google.com",
-    City: "fffff",
+    "Company Name": "Mumbai Indians",
+    "Company Size": 55000,
+    "Company Website": "www.yahoo.com",
+    City: "Mumbai",
     Country: "India",
-    "Job Role": "HR Generalist",
-    "Job Title": "HR Coordinator",
+    "Job Role": "Marketing Manager",
+    "Job Title": "Digital Marketing Specialist",
     "Job Description":
-      "HR Coordinators assist in HR functions such as recruitment, onboarding, and employee record maintenance. They often handle administrative tasks, organize training programs, and provide support to the HR department in various ways.",
-    "Lower Salary Range": 650000,
-    "Upper Salary Range": 920000,
-    Experience: "",
-    "Highest Qualification": "PhD",
-    "Work Type": "Temporary",
-    Skills: "Recruitment, conflict resolution, labor law",
+      "Digital Marketing Specialists are responsible for developing, implementing, and managing marketing campaigns that promote a company's products and services. They play a major role in enhancing brand awareness within the digital space as well as driving website traffic and acquiring leads/customers.",
+    "Lower Salary Range": 700000,
+    "Upper Salary Range": 1100000,
+    Experience: "2-5 years",
+    "Highest Qualification": "Bachelor's Degree",
+    "Work Type": "Full-time",
+    Skills:
+      "SEO, SEM, social media marketing, content marketing, email marketing, Google Analytics, PPC advertising, digital strategy",
     Responsibilities:
-      "Assist with recruitment activities, including posting job openings, coordinating interviews, and managing applicant data. Ensure a positive candidate experience. Maintain recruitment records and metrics.",
-    Mode: "On-site",
+      "Develop and implement digital marketing campaigns across various channels. Analyze and report on the performance of campaigns. Optimize website content and user experience. Stay up-to-date with digital marketing trends and best practices.",
+    Mode: "Remote",
   },
   {
     "User Id": 3,
-    "Company Name": "heebie",
-    "Company Size": 48199,
-    "Company Website": "www.google.com",
-    City: "fffff",
+    "Company Name": "Chennai Super Kings",
+    "Company Size": 50000,
+    "Company Website": "www.bing.com",
+    City: "Chennai",
     Country: "India",
-    "Job Role": "HR Generalist",
-    "Job Title": "HR Coordinator",
+    "Job Role": "Software Engineer",
+    "Job Title": "Full Stack Developer",
     "Job Description":
-      "HR Coordinators assist in HR functions such as recruitment, onboarding, and employee record maintenance. They often handle administrative tasks, organize training programs, and provide support to the HR department in various ways.",
-    "Lower Salary Range": 650000,
-    "Upper Salary Range": 920000,
-    Experience: "",
-    "Highest Qualification": "PhD",
-    "Work Type": "Temporary",
+      "Full Stack Developers are responsible for designing, developing, and maintaining both the front-end and back-end of web applications. They work with various programming languages, frameworks, and databases to create scalable and responsive software solutions.",
+    "Lower Salary Range": 800000,
+    "Upper Salary Range": 1200000,
+    Experience: "3-7 years",
+    "Highest Qualification": "Master's Degree",
+    "Work Type": "Permanent",
     Skills:
-      "Recruitment, onboarding, employee relations, HRIS, performance management, organizational development, conflict resolution, labor law",
+      "JavaScript, HTML/CSS, Node.js, React, Angular, Python, SQL, MongoDB, RESTful APIs",
     Responsibilities:
-      "Assist with recruitment activities, including posting job openings, coordinating interviews, and managing applicant data. Ensure a positive candidate experience. Maintain recruitment records and metrics.",
+      "Develop and maintain web applications. Collaborate with cross-functional teams to define, design, and ship new features. Write clean, reusable, and efficient code. Troubleshoot and debug applications.",
     Mode: "On-site",
   },
 ];
 
 const CandidateHomeScreen = () => {
-
-  //Dummy Navbar
-  const MusicRoute = () => <Text>Music</Text>;
-
-  const AlbumsRoute = () => <Text>Albums</Text>;
-
-  const RecentsRoute = () => <Text>Recents</Text>;
-
-  const NotificationsRoute = () => <Text>Notifications</Text>;
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'music', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-    { key: 'albums', focusedIcon: 'album' },
-    { key: 'recents', focusedIcon: 'history' },
-    { key: 'notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
-  ]);
-
-  const renderScene = BottomNavigation.SceneMap({
-    music: MusicRoute,
-    albums: AlbumsRoute,
-    recents: RecentsRoute,
-    notifications: NotificationsRoute,
-  });
-
-
-  // Dummy navbar
-  const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
-
-
   const openWebsite = () => {
-    Linking.openURL(
-      candidateHomeScreenData[currentCandidateIndex]["Company Website"]
+    const website =
+      candidateHomeScreenData[currentCandidateIndex]["Company Website"];
+    Linking.openURL(website).catch((error) =>
+      console.error(
+        candidateHomeScreenData[currentCandidateIndex]["Company Website"],
+        "Error opening website:",
+        error
+      )
     );
   };
-
-  const InfoCardComponent = ({ title, content }) => {
-    return (
-      <Card mode="elevated" style={styles.infoCard}>
-        <Card.Content>
-          <Text variant="headlineLarge">{title}</Text>
-          <Text variant="bodyMedium">{content}</Text>
-        </Card.Content>
-      </Card>
-    );
-  };
+  const [currentCandidateIndex, setCurrentCandidateIndex] = useState(0);
 
   const skills =
     candidateHomeScreenData[currentCandidateIndex]["Skills"].split(", ");
 
+  const [likeIsVisible, setLikeIsVisible] = useState(false);
+  const [dislikeIsVisible, setDislikeIsVisible] = useState(false);
+
+  const [animation] = useState(new Animated.Value(1));
+
+  const flashStyle = {
+    opacity: animation.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [0, 0, 1],
+    }),
+  };
+
   const handleLike = () => {
+    animation.setValue(0);
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+
+    setLikeIsVisible(true);
+
+    setTimeout(() => {
+      setLikeIsVisible(false);
+    }, 1000);
+
     setCurrentCandidateIndex(
       (prevIndex) => (prevIndex + 1) % candidateHomeScreenData.length
     );
@@ -141,6 +139,19 @@ const CandidateHomeScreen = () => {
   };
 
   const handleDislike = () => {
+    animation.setValue(0);
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start();
+
+    setDislikeIsVisible(true);
+
+    setTimeout(() => {
+      setDislikeIsVisible(false);
+    }, 1000);
+
     setCurrentCandidateIndex(
       (prevIndex) => (prevIndex + 1) % candidateHomeScreenData.length
     );
@@ -148,136 +159,162 @@ const CandidateHomeScreen = () => {
   };
 
   return (
-    <SafeAreaView>
+    <View style={styles.backgroundContainer}>
+      {likeIsVisible && (
+        <View style={styles.flashIconContainer}>
+          <Icon source="thumb-up" size={80} color="#083767" />
+        </View>
+      )}
+      {dislikeIsVisible && (
+        <View style={styles.flashIconContainer}>
+          <Icon source="close-thick" size={100} color="#083767" />
+        </View>
+      )}
+      <Animated.View style={[flashStyle]}>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Text style={styles.leftAlignedItems1} variant="headlineSmall">
+            {candidateHomeScreenData[currentCandidateIndex]["Company Name"]}
+          </Text>
+          <Text style={styles.leftAlignedItems2} variant="titleMedium">
+            {candidateHomeScreenData[currentCandidateIndex]["Job Role"]}
+          </Text>
+          <Card mode="elevated" style={styles.logoCard}>
+            <Card.Cover
+              style={styles.logoImage}
+              resizeMode="cover"
+              source={{
+                uri: "https://i.pinimg.com/originals/c8/e9/e6/c8e9e65d1d2f9d2472dd64a875c5c238.jpg",
+              }}
+            />
+          </Card>
 
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.leftAlignedItems1} variant="headlineSmall">
-          {candidateHomeScreenData[currentCandidateIndex]["Company Name"]}
-        </Text>
-        <Text style={styles.leftAlignedItems2} variant="titleMedium">
-          {candidateHomeScreenData[currentCandidateIndex]["Job Role"]}
-        </Text>
-        <Card mode="elevated" style={styles.logoCard}>
-          <Card.Cover
-            style={styles.logoImage}
-            resizeMode="cover"
-            source={{
-              uri: "https://i.pinimg.com/originals/c8/e9/e6/c8e9e65d1d2f9d2472dd64a875c5c238.jpg",
-            }}
-          />
-          {/* <Card.Content style={styles.logoCardTitle}>
-            <Text variant="bodyMedium" style={styles.title}>
-              {candidateHomeScreenData[currentCandidateIndex]["Job Role"]}
-            </Text>
-            <TouchableOpacity onPress={openWebsite}>
-              <Text variant="bodyMedium" style={styles.title}>
-                <Icon size={20} source="web" />
-                {`${""} ${candidateHomeScreenData[currentCandidateIndex][
-                  "Company Website"
-                ]
+          <Card mode="elevated" style={styles.segmentedCard}>
+            <Card.Content>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text variant="bodyMedium" style={styles.title}>
+                  <Icon size={20} source="clock" />
+                  {`${"  "}${
+                    candidateHomeScreenData[currentCandidateIndex]["Work Type"]
                   }`}
-              </Text>
-            </TouchableOpacity>
-          </Card.Content> */}
-        </Card>
-
-        <Card mode="elevated" style={styles.segmentedCard}>
-          <Card.Content>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text variant="bodyMedium" style={styles.title}>
-                <Icon size={20} source="clock" />{`${"  "}${candidateHomeScreenData[currentCandidateIndex]["Work Type"]
-                  }`}
-              </Text>
-              <Divider style={{ height: '100%', width: 1 }} />
-              <TouchableOpacity onPress={openWebsite}>
-                <Text variant="bodyMedium" style={styles.title} >
-                  <Icon size={20} source="web" />  Website
                 </Text>
-              </TouchableOpacity>
-              <Divider style={{ height: '100%', width: 1 }} />
-              <Text variant="bodyMedium" style={styles.infoCardText}>
-                <Icon size={20} source="map-marker" />
-                {`${"  "}${candidateHomeScreenData[currentCandidateIndex]["Mode"]
+                <Divider style={styles.verticalDivider} />
+                <TouchableOpacity onPress={openWebsite}>
+                  <Text variant="bodyMedium" style={styles.title}>
+                    <Icon size={20} source="web" /> Website
+                  </Text>
+                </TouchableOpacity>
+                <Divider style={styles.verticalDivider} />
+                <Text variant="bodyMedium" style={styles.infoCardText}>
+                  <Icon size={20} source="map-marker" />
+                  {`${"  "}${
+                    candidateHomeScreenData[currentCandidateIndex]["Mode"]
                   }`}
-              </Text>
-            </View>
-            <Divider style={{ marginVertical: 10 }} />
-            <View style={{ flexDirection: 'row' }}>
-              <Text variant="bodyMedium" style={styles.infoCardText}>
-                <Icon size={20} source="office-building" />
-                {`${"  "}${candidateHomeScreenData[currentCandidateIndex]["City"]
-                  }${", "}${candidateHomeScreenData[currentCandidateIndex]["Country"]
+                </Text>
+              </View>
+              <Divider style={styles.horizontalDivider} />
+              <View style={{ flexDirection: "row" }}>
+                <Text variant="bodyMedium" style={styles.infoCardText}>
+                  <Icon size={20} source="office-building" />
+                  {`${"  "}${
+                    candidateHomeScreenData[currentCandidateIndex]["City"]
+                  }${", "}${
+                    candidateHomeScreenData[currentCandidateIndex]["Country"]
                   }`}
+                </Text>
+              </View>
+            </Card.Content>
+          </Card>
+
+          <Card mode="elevated" style={styles.infoCard}>
+            <Card.Content>
+              <Text variant="titleLarge" style={styles.infoCardText}>
+                {candidateHomeScreenData[currentCandidateIndex]["Job Title"]}
               </Text>
-            </View>
-          </Card.Content>
-        </Card>
+              <Divider style={styles.horizontalDivider} />
+              <Text variant="bodyMedium" style={styles.infoCardText}>
+                {
+                  candidateHomeScreenData[currentCandidateIndex][
+                    "Job Description"
+                  ]
+                }
+              </Text>
+            </Card.Content>
+          </Card>
 
-        <Card mode="elevated" style={styles.infoCard}>
-          <Card.Content>
-            <Text variant="titleLarge" style={styles.infoCardText}>{candidateHomeScreenData[currentCandidateIndex]["Job Title"]}</Text>
-            <Divider style={{ marginVertical: 10 }} />
-            <Text variant="bodyMedium" style={styles.infoCardText}>{candidateHomeScreenData[currentCandidateIndex]["Job Description"]}</Text>
-          </Card.Content>
-        </Card>
-
-        <Card mode="elevated" style={styles.infoCard}>
-          <Card.Content>
-            <Text variant="titleLarge" style={styles.infoCardText}>Responsibilties & Skills</Text>
-            <Divider style={{ marginVertical: 10 }} />
-            <Text variant="bodyMedium" style={styles.infoCardText}>{candidateHomeScreenData[currentCandidateIndex]["Responsibilities"]}</Text>
-            <Divider style={{ marginVertical: 10, borderColor: 'transparent' }} />
-            <View style={styles.chipContainer}>
-              {skills.map((value, index) => (
-                <Chip compact={true} key={index} style={styles.chip} textStyle={{ color: 'white' }}>
-                  {value}
-                </Chip>
-              ))}
-            </View>
-          </Card.Content>
-        </Card>
-
-
-        <View style={styles.bottomSpace}></View>
-      </ScrollView>
-      <FAB
-        color="black"
-        mode="elevated"
-        style={styles.fabLike}
-        icon="thumb-up"
-        onPress={handleLike}
-      />
-      <FAB
-        color="black"
-        mode="elevated"
-        style={styles.fabDislike}
-        icon="close-thick"
-        onPress={handleDislike}
-      />
-      {/* Navbar */}
-      <BottomNavigation
-        navigationState={{ index, routes }}
-        onIndexChange={setIndex}
-        renderScene={renderScene}
-        style={styles.navbar}
-        barStyle={{ backgroundColor: '#141414', height: 80 }}
-        activeIndicatorStyle={{ backgroundColor: 'transparent' }}
-
-        activeColor="white"
-
-      />
-      {/* Navbar */}
-    </SafeAreaView>
+          <Card mode="elevated" style={styles.infoCard}>
+            <Card.Content>
+              <Text variant="titleLarge" style={styles.infoCardText}>
+                Responsibilties & Skills
+              </Text>
+              <Divider style={styles.horizontalDivider} />
+              <Text variant="bodyMedium" style={styles.infoCardText}>
+                {
+                  candidateHomeScreenData[currentCandidateIndex][
+                    "Responsibilities"
+                  ]
+                }
+              </Text>
+              <Divider style={styles.horizontalDivider} />
+              <View style={styles.chipContainer}>
+                {skills.map((value, index) => (
+                  <Chip
+                    compact={true}
+                    key={index}
+                    style={styles.chip}
+                    textStyle={{ color: "white" }}
+                  >
+                    {value}
+                  </Chip>
+                ))}
+              </View>
+            </Card.Content>
+          </Card>
+          <View style={styles.bottomSpace}></View>
+        </ScrollView>
+        <FAB
+          color="black"
+          mode="elevated"
+          style={styles.fabLike}
+          icon="thumb-up"
+          onPress={handleLike}
+        />
+        <FAB
+          color="black"
+          mode="elevated"
+          style={styles.fabDislike}
+          icon="close-thick"
+          onPress={handleDislike}
+        />
+      </Animated.View>
+    </View>
   );
-}
+};
 
 export default memo(CandidateHomeScreen);
 
 const styles = StyleSheet.create({
+  flashIconContainer: {
+    alignItems: "center",
+    paddingVertical: "100%",
+    backgroundColor: "#fff",
+  },
+  header: {
+    height: 50,
+    backgroundColor: "white",
+  },
+  backgroundContainer: {
+    backgroundColor: "#fff",
+  },
   container: {
     alignItems: "center",
     paddingHorizontal: 15,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
+    paddingTop: 50,
   },
   logoCard: {
     height: cardWidth,
@@ -295,6 +332,13 @@ const styles = StyleSheet.create({
     width: "100%",
     marginVertical: 10,
   },
+  horizontalDivider: {
+    marginVertical: 10,
+  },
+  verticalDivider: {
+    height: "100%",
+    width: 1,
+  },
   title: {
     color: "black",
   },
@@ -308,11 +352,6 @@ const styles = StyleSheet.create({
   infoCardText: {
     fontFamily: "Helvetica",
   },
-  text: {
-    textAlign: "center",
-    fontSize: 50,
-    backgroundColor: "transparent",
-  },
   leftAlignedItems1: {
     alignSelf: "flex-start",
     fontFamily: "Helvetica",
@@ -323,10 +362,8 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica",
   },
   fabLike: {
-    color: "white",
     position: "absolute",
     margin: 16,
-    marginBottom: 110,
     right: 0,
     bottom: 0,
     backgroundColor: "white",
@@ -338,7 +375,6 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     backgroundColor: "white",
-    marginBottom: 110,
     borderRadius: 30,
   },
   chipContainer: {
@@ -348,18 +384,9 @@ const styles = StyleSheet.create({
   },
   chip: {
     margin: 2,
-    paddingVertical: 0,
     backgroundColor: "#083767",
-    color: "white",
   },
   bottomSpace: {
     height: 40,
-  },
-  navbar: {
-    backgroundColor: " #141414",
-    zIndex: 1000,
-    position: "absolute",
-    bottom: 0,
-    width: "100%"
   },
 });

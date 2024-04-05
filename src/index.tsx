@@ -20,7 +20,8 @@ import {
   RecruiterHomepage,
   SettingsScreen,
   CandidateHomeScreen,
-  MatchScreen,
+  CandidateMatchScreen,
+  RecruiterMatchScreen
 } from './screens';
 import { useLogin } from './context/LoginProvider';
 
@@ -47,9 +48,16 @@ const CandidateHomeStack = () => (
   </Stack.Navigator>
 );
 
-const MatchStack = () => (
+const RecruiterMatchStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="MatchScreen" component={MatchScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="RecruiterMatchScreen" component={RecruiterMatchScreen} options={{ headerShown: false }} />
+    {/* Add match related screens */}
+  </Stack.Navigator>
+);
+
+const CandidateMatchStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="CandidateMatchScreen" component={CandidateMatchScreen} options={{ headerShown: false }} />
     {/* Add match related screens */}
   </Stack.Navigator>
 );
@@ -114,14 +122,14 @@ const RecruiterStack = () => (
         // You can return any component here that you want to appear as the icon.
         return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarStyle: { backgroundColor: '#141414', borderTopWidth: 0},
+      tabBarStyle: { backgroundColor: '#141414', borderTopWidth: 0 },
       tabBarActiveTintColor: 'white',
       tabBarInactiveTintColor: '#363737',
       // tabBarBadgeStyle: { backgroundColor: '#141414', color: 'white', fontWeight: 'bold'}
     })}
   >
     <Tab.Screen name="Home" component={RecruiterHomeStack} options={{ headerShown: false, tabBarShowLabel: false }} />
-    <Tab.Screen name="Match" component={MatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
+    <Tab.Screen name="Match" component={RecruiterMatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
     <Tab.Screen name="Jobs" component={JobStack} options={{ headerShown: false, tabBarShowLabel: false }} />
     <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false, tabBarShowLabel: false }} />
   </Tab.Navigator>
@@ -153,7 +161,7 @@ const CandidateStack = () => (
     })}
   >
     <Tab.Screen name="Home" component={CandidateHomeStack} options={{ headerShown: false, tabBarShowLabel: false }} />
-    <Tab.Screen name="Match" component={MatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
+    <Tab.Screen name="Match" component={CandidateMatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
     <Tab.Screen name="Profile" component={ProfileStack} options={{ headerShown: false, tabBarShowLabel: false }} />
     <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false, tabBarShowLabel: false }} />
   </Tab.Navigator>
@@ -161,7 +169,7 @@ const CandidateStack = () => (
 
 
 const App = () => {
-  const {isLoggedIn, isRecruiter} = useLogin()
+  const { isLoggedIn, isRecruiter } = useLogin()
 
   return (
 
@@ -175,7 +183,7 @@ const App = () => {
       ) : (
         <AuthStack />
       )}
-      
+
     </NavigationContainer>
   );
 };

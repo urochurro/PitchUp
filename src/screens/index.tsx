@@ -13,4 +13,6 @@ export { default as DoneScreen } from './DoneScreen';
 export { default as EditJob } from './EditJob';
 export { default as SettingsScreen } from './settingsScreen';
 export { default as CandidateHomeScreen } from './CandidateHomeScreen';
-export { default as MatchScreen } from './MatchScreen';
+export { default as RecruiterMatchScreen } from './RecruiterMatchScreen';
+export { default as CandidateMatchScreen } from './CandidateMatchScreen';
+
