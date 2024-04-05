@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Card, Button, Text } from 'react-native-paper';
 // import { Navigation } from '../types';
@@ -34,10 +34,16 @@ const JobList = ({ navigation }) => {
   const { userId } = useLogin();
   const [jobslist, setJobslist] = useState([]);
 
-  fetchJobData(userId).then((responseData: any) => {
-    console.log(responseData.jobs);
-    setJobslist(responseData.jobs);
-  });
+  useEffect(() => {
+    fetchJobData(userId).then((responseData: any) => {
+      console.log(responseData.jobs);
+      setJobslist(responseData.jobs);
+    });
+  }, []);
+  // fetchJobData(userId).then((responseData: any) => {
+  //   console.log(responseData.jobs);
+  //   setJobslist(responseData.jobs);
+  // });
   
   const editPage = (jobId) => {
     axios.get('http://10.0.0.10:3000/jobInfo/'+jobId)
