@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { TextInput as PaperInput } from 'react-native-paper';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -19,8 +20,8 @@ type Props = {
 
 const LoginScreen = ({ navigation }: Props) => {
   const { setIsLoggedIn, setIsRecruiter, setUserId } = useLogin();
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+  const [email, setEmail] = useState({ value: "", error: "" });
+  const [password, setPassword] = useState({ value: "", error: "" });
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -33,27 +34,40 @@ const LoginScreen = ({ navigation }: Props) => {
     }
 
     // #IMP: API call to login
-    const data = { email: email, password: password };
+    const data = { 'email': email.value, 'password': password.value };
+    
     axios
       .post("http://10.0.0.10:3000/login/", data)
       .then(function (response) {
         // handle success
-        response.data['recruiter'] ? setIsRecruiter(true) : setIsRecruiter(false); 
+        console.log(response.data);
+
+        response.data["recruiter"]
+          ? setIsRecruiter(true)
+          : setIsRecruiter(false);
+        // #IMP: set to true if recruiter
+        setUserId(response.data["user_id"]);
         // #IMP: set to true if recruiter
         setIsLoggedIn(true);
-        setUserId(response.data['uuid']);
+
         // console.log(response);
       })
       .catch(function (error) {
         // handle error
         console.log(error);
       });
+  };
+  // State variable to track password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
+  // Function to toggle the password visibility state
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
+      <BackButton goBack={() => navigation.navigate("HomeScreen")} />
 
       <Logo />
       <View style={{ height: 40 }} />
@@ -64,7 +78,7 @@ const LoginScreen = ({ navigation }: Props) => {
         label="Email"
         returnKeyType="done"
         value={email.value}
-        onChangeText={text => setEmail({ value: text, error: '' })}
+        onChangeText={(text) => setEmail({ value: text, error: "" })}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -73,21 +87,21 @@ const LoginScreen = ({ navigation }: Props) => {
         textContentType="emailAddress"
         keyboardType="email-address"
       />
-
       <TextInput
         label="Password"
         returnKeyType="done"
         value={password.value}
-        onChangeText={text => setPassword({ value: text, error: '' })}
+        onChangeText={(text) => setPassword({ value: text, error: "" })}
         error={!!password.error}
         errorText={password.error}
-        textContentType='password'
-        secureTextEntry
+        textContentType="password"
+        right={<PaperInput.Icon icon="eye" onPress={toggleShowPassword} />}
+        secureTextEntry={!showPassword}
       />
 
       <View style={styles.forgotPassword}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('ForgotPasswordScreen')}
+          onPress={() => navigation.navigate("ForgotPasswordScreen")}
         >
           <Text style={styles.label}>Forgot your password?</Text>
         </TouchableOpacity>
@@ -99,7 +113,9 @@ const LoginScreen = ({ navigation }: Props) => {
 
       <View style={styles.row}>
         <Text style={styles.label}>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('RecruiterOrCandidateScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("RecruiterOrCandidateScreen")}
+        >
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
