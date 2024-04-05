@@ -24,6 +24,7 @@ import {
   RecruiterMatchScreen
 } from './screens';
 import { useLogin } from './context/LoginProvider';
+import CandidateProfileScreen from './screens/CandidateProfileScreen';
 
 
 
@@ -74,9 +75,7 @@ const JobStack = () => (
 
 const ProfileStack = () => (
   <Stack.Navigator>
-    <Stack.Screen name="JobList" component={JobList} options={{ headerShown: false }} />
-    <Stack.Screen name="AddJob" component={AddJob} options={{ headerShown: false }} />
-    <Stack.Screen name="EditJob" component={EditJob} options={{ headerShown: false }} />
+    <Stack.Screen name="CandidateProfileScreen" component={CandidateProfileScreen} options={{ headerShown: false }} />
 
     {/* Add profile related screens */}
   </Stack.Navigator>
@@ -162,7 +161,7 @@ const CandidateStack = () => (
   >
     <Tab.Screen name="Home" component={CandidateHomeStack} options={{ headerShown: false, tabBarShowLabel: false }} />
     <Tab.Screen name="Match" component={CandidateMatchStack} options={{ headerShown: false, tabBarBadge: 3, tabBarShowLabel: false }} />
-    <Tab.Screen name="Profile" component={ProfileStack} options={{ headerShown: false, tabBarShowLabel: false }} />
+    <Tab.Screen name="Profile" component={CandidateProfileScreen} options={{ headerShown: false, tabBarShowLabel: false }} />
     <Tab.Screen name="Settings" component={SettingsStack} options={{ headerShown: false, tabBarShowLabel: false }} />
   </Tab.Navigator>
 );
