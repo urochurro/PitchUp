@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
-import { Card, Button } from 'react-native-paper';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Card, Button, Text } from 'react-native-paper';
 import { Navigation } from '../types';
 import Header from '../components/Header';
 import Background from '../components/Background';
@@ -18,10 +18,10 @@ const JobList = ({ navigation }: Props) => {
       companyName: "Ernst & Young"
     },
     {
-        jobId: "8",
-        jobTitle: "Spy Agent",
-        companyName: "Ernst & Young"
-      }
+      jobId: "8",
+      jobTitle: "Spy Agent",
+      companyName: "Ernst & Young"
+    }
   ]);
 
   const handleDelete = (jobId) => {
@@ -48,13 +48,15 @@ const JobList = ({ navigation }: Props) => {
   return (
 
     <View style={styles.container}>
-      <Text style={styles.title}>Job List</Text>
-      
+      <Text style={styles.title}>Job Listings</Text>
+
       {jobs.map(job => (
         <Card key={job.jobId} style={styles.card}>
           <Card.Content>
-            <Text style={styles.jobTitle}>{job.jobTitle}</Text>
-            <Text style={styles.companyName}>{job.companyName}</Text>
+            <Text style={{ fontWeight: "800" }} variant="titleMedium">{job.jobTitle}</Text>
+            <Text variant="bodyMedium">{job.companyName}</Text>
+
+
           </Card.Content>
           <Card.Actions style={styles.cardActions}>
             <Button
@@ -101,7 +103,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   card: {
-    marginBottom: 10,
+    marginVertical: 10,
+    backgroundColor: "#fff",
+    padding: 10,
+    elevation: 5,
   },
   jobTitle: {
     fontSize: 18,
@@ -112,10 +117,12 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   cardActions: {
+    marginTop: 10,
     justifyContent: 'flex-end',
   },
   addButton: {
     marginBottom: 10,
   },
+
 });
 

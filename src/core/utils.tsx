@@ -1,3 +1,5 @@
+import axios, { AxiosResponse } from 'axios';
+
 export const emailValidator = (email: string) => {
   const re = /\S+@\S+\.\S+/;
 
@@ -34,3 +36,15 @@ export const companyNameValidator = (name: string) => {
 
   return '';
 };
+
+export function fetchJobData(): Promise<any> {
+  return axios.get("http://192.168.29.167:3000/getCandidateDetails/V92fc2631-3710-40d6-b78c-a427d17fbd56a")
+    .then((response: AxiosResponse) => {
+      const responseData = response.data;
+      return responseData;
+    })
+    .catch((error: any) => {
+      console.error('Error fetching data:', error);
+      return {};
+    });
+}

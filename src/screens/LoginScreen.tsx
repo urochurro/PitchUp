@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }: Props) => {
     }
 
 
-    setIsRecruiter(true); // #IMP: set to true if recruiter
+    setIsRecruiter(false); // #IMP: set to true if recruiter
     setIsLoggedIn(true);
   };
 
