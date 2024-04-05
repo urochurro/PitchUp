@@ -7,6 +7,7 @@ import { Navigation } from '../types';
 import TextInput from '../components/TextInput';
 import Header from '../components/Header';
 import Background from '../components/Background';
+import axios from 'axios';
 
 
 type Props = {
@@ -23,15 +24,15 @@ const AddJob = ({ navigation }: Props) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    {label: 'Mumbai', value: 'Mumbai'},
-    {label: 'Banglore', value: 'Banglore'}
+    {label: 'Maharashtra', value: 'Maharashtra'},
+    {label: 'Gujarat', value: 'Gujarat'}
   ]);
 // City Dropdown
   const [open1, setOpen1] = useState(false);
   const [value1, setValue1] = useState(null);
   const [items1, setItems1] = useState([
-    {label: 'Ap', value: 'ap'},
-    {label: 'Ba', value: 'ba'}
+    {label: 'Mumbai', value: 'Mumbai'},
+    {label: 'Banglore', value: 'Banglore'}
   ]);
 
   // Work Mode Dropdown
@@ -65,9 +66,29 @@ const AddJob = ({ navigation }: Props) => {
 
 
   const onSubmit = (data) => {
-    data['Skills'] = skills; // Add the list of skills to the form data
+    data['Skills'] = String(skills); // Add the list of skills to the form data
     console.log("Data:", data); // Log the form data
-    
+    data["User Id"] = "Jb8810c9d-f94b-4f85-98ee-9d82b0160aa1t"
+    axios.post('http://192.168.0.112:3000/addJob/', data, {
+      timeout: 100000
+    })
+    .then(function (response) {
+      console.log(response);
+      navigation.navigate('JobList');
+    })
+    .catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        console.log('Server Error:', error.response.status);
+        console.log('Response Data:', error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log('No Response:', error.request);
+      } else {
+        // Something else happened while setting up the request
+        console.log('Request Error:', error.message);
+      }
+    });
     // console.log("Skills:", skills); // Log the list of skills
   };
 
@@ -99,7 +120,7 @@ const AddJob = ({ navigation }: Props) => {
                 error={errors.companyName ? true : false}
               />
             )}
-            name="company Name"
+            name="Company Name"
             rules={{ required: true }}
             defaultValue=""
           />
@@ -136,7 +157,7 @@ const AddJob = ({ navigation }: Props) => {
                 error={errors.companyWebsite ? true : false}
               />
             )}
-            name="company Website"
+            name="Company Website"
             defaultValue=""
           />
         </View>
@@ -372,7 +393,7 @@ const AddJob = ({ navigation }: Props) => {
               }}
             />
             )}
-            name="Work Type"
+            name="Job Type"
             rules={{ required: true }}
             defaultValue=""
           />

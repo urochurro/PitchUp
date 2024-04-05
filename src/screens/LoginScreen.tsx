@@ -10,14 +10,15 @@ import { theme } from '../core/theme';
 import { emailValidator, passwordValidator } from '../core/utils';
 import { Navigation } from '../types';
 import { useLogin } from '../context/LoginProvider';
-import { set } from 'react-hook-form';
+import axios from "axios";
+
 
 type Props = {
   navigation: Navigation;
 };
 
 const LoginScreen = ({ navigation }: Props) => {
-  const { setIsLoggedIn, setIsRecruiter } = useLogin();
+  const { setIsLoggedIn, setIsRecruiter, setUserId } = useLogin();
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
 
@@ -31,9 +32,23 @@ const LoginScreen = ({ navigation }: Props) => {
       return;
     }
 
+    // #IMP: API call to login
+    const data = { email: email, password: password };
+    axios
+      .post("http://10.0.0.10:3000/login/", data)
+      .then(function (response) {
+        // handle success
+        response.data['recruiter'] ? setIsRecruiter(true) : setIsRecruiter(false);
+        // #IMP: set to true if recruiter
+        setUserId(response.data['user_id']);
+        setIsLoggedIn(true);
+        // console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
 
-    setIsRecruiter(false); // #IMP: set to true if recruiter
-    setIsLoggedIn(true);
   };
 
   return (
