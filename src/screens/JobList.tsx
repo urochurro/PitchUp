@@ -1,28 +1,43 @@
 import React, { memo, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
 import { Card, Button } from 'react-native-paper';
-import { Navigation } from '../types';
+// import { Navigation } from '../types';
 import Header from '../components/Header';
 import Background from '../components/Background';
+import axios from 'axios';
+import { useRoute } from '@react-navigation/native';  
 
-type Props = {
-  navigation: Navigation;
-};
+// type Props = {
+//   navigation: Navigation;
+// };
 
-
-const JobList = ({ navigation }: Props) => {
-  const [jobs, setJobs] = useState([
-    {
-      jobId: "7",
-      jobTitle: "Teacher",
-      companyName: "Ernst & Young"
-    },
-    {
-        jobId: "8",
-        jobTitle: "Spy Agent",
-        companyName: "Ernst & Young"
-      }
-  ]);
+const user_id = "Jb8810c9d-f94b-4f85-98ee-9d82b0160aa1t"
+const jobdata = []
+  
+const JobList = ({ navigation }) => {
+  const [jobs, setJobs] = useState([]);
+  axios.get('http://192.168.0.112:3000/allJobs/'+user_id)
+  .then(function (response) {
+    // handle success
+    setJobs(response.data.jobs)
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  
+  const editPage = (jobId) => {
+    axios.get('http://192.168.0.112:3000/jobInfo/'+jobId)
+    .then(function (response) {
+      // handle success
+      navigation.navigate('EditJob', {jobData: response.data})
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    
+  };
 
   const handleDelete = (jobId) => {
     Alert.alert(
@@ -37,6 +52,25 @@ const JobList = ({ navigation }: Props) => {
           text: "Yes",
           onPress: () => {
             console.log("Deleted job with ID:", jobId);
+            axios.delete('http://192.168.0.112:3000/deleteJob/'+ jobId)
+  .then(response => {
+    // Handle success (status code 2xx)
+    console.log('DELETE request successful:', response.data);
+  })
+  .catch(error => {
+    // Handle error (non-2xx status codes)
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      console.error('Request failed with status code:', error.response.status);
+      console.error('Response data:', error.response.data);
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('No response received:', error.request);
+    } else {
+      // Something else went wrong
+      console.error('Error:', error.message);
+    }
+  });
             // setJobs(jobs.filter(job => job.jobId !== jobId));
           },
         },
@@ -65,7 +99,7 @@ const JobList = ({ navigation }: Props) => {
             </Button>
             <Button
               icon="pencil"
-              onPress={() => navigation.navigate('EditJob')}
+              onPress={() => editPage(job.jobId)}
             >
               Edit
             </Button>
