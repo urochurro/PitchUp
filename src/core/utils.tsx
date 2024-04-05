@@ -1,5 +1,3 @@
-import axios, { AxiosResponse } from 'axios';
-
 export const emailValidator = (email: string) => {
   const re = /\S+@\S+\.\S+/;
 
