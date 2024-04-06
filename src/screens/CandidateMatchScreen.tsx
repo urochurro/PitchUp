@@ -4,7 +4,6 @@ import { Card, IconButton, Button, Text, Appbar } from "react-native-paper";
 import { Navigation } from "../types";
 import Background from "../components/Background";
 import Header from "../components/Header";
-import { fetchJobData } from "../core/utils";
 
 type Props = {
   navigation: Navigation;
@@ -12,13 +11,13 @@ type Props = {
 
 const MatchScreen = ({ navigation }: Props) => {
   const candidateMatches = [
-    { "id": 1, "companyName": "Tata Consultancy Services", "jobRole": "Network Engineer" },
-    { "id": 2, "companyName": "Infosys", "jobRole": "Network Engineer" },
-    { "id": 3, "companyName": "Wipro", "jobRole": "Network Engineer" },
-    { "id": 4, "companyName": "Tech Mahindra", "jobRole": "Network Engineer" },
-    { "id": 5, "companyName": "HCL Technologies", "jobRole": "Network Engineer" },
-    { "id": 6, "companyName": "Reliance Industries", "jobRole": "Network Engineer" },
-    { "id": 7, "companyName": "Bharti Airtel", "jobRole": "Network Engineer" }
+    { "id": 1, "companyName": "DigitalMinds Co.", "jobRole": "Digital Marketing Specialist" },
+    { "id": 2, "companyName": "ClickBoost Marketing", "jobRole": "Digital Marketing Specialist" },
+    { "id": 3, "companyName": "eMarketer Solutions", "jobRole": "Digital Marketing Specialist" },
+    { "id": 4, "companyName": "PixelPerfection Agency", "jobRole": "Digital Marketing Specialist" },
+    { "id": 5, "companyName": "OnlinePresence Consultants", "jobRole": "Digital Marketing Specialist" },
+    { "id": 6, "companyName": "SocialPulse Marketing", "jobRole": "Digital Marketing Specialist" },
+    { "id": 7, "companyName": "SearchRank Pro", "jobRole": "Digital Marketing Specialist" }
   ];
 
   const handleViewProfile = () => {

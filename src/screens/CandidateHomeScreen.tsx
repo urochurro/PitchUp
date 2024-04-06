@@ -23,71 +23,72 @@ const cardWidth = width * 0.9;
 const candidateHomeScreenData = [
   {
     "User Id": 1,
-    "Company Name": "Kolkata Knight Riders",
-    "Company Size": 48199,
-    "Company Website": "https://www.kkr.in/",
+    "Company Name": "Digital Solutions India",
+    "Company Size": 200,
+    "Company Website": "https://www.digitalsolutions.in/",
     City: "Mumbai",
     Country: "India",
-    "Job Role": "HR Generalist",
-    "Job Title": "HR Coordinator",
+    "Job Role": "Digital Marketing Specialist",
+    "Job Title": "SEO Analyst",
     "Job Description":
-      "HR Coordinators assist in HR functions such as recruitment, onboarding, and employee record maintenance. They often handle administrative tasks, organize training programs, and provide support to the HR department in various ways.",
-    "Lower Salary Range": 650000,
-    "Upper Salary Range": 920000,
-    Experience: "",
-    "Highest Qualification": "PhD",
-    "Work Type": "Temporary",
-    Skills:
-      "Recruitment, onboarding, employee relations, HRIS, performance management, organizational development, conflict resolution, labor law",
-    Responsibilities:
-      "Assist with recruitment activities, including posting job openings, coordinating interviews, and managing applicant data. Ensure a positive candidate experience. Maintain recruitment records and metrics.",
-    Mode: "On-site",
-  },
-  {
-    "User Id": 2,
-    "Company Name": "Mumbai Indians",
-    "Company Size": 55000,
-    "Company Website": "www.yahoo.com",
-    City: "Mumbai",
-    Country: "India",
-    "Job Role": "Marketing Manager",
-    "Job Title": "Digital Marketing Specialist",
-    "Job Description":
-      "Digital Marketing Specialists are responsible for developing, implementing, and managing marketing campaigns that promote a company's products and services. They play a major role in enhancing brand awareness within the digital space as well as driving website traffic and acquiring leads/customers.",
-    "Lower Salary Range": 700000,
-    "Upper Salary Range": 1100000,
-    Experience: "2-5 years",
+      "SEO Analysts are responsible for optimizing website content and structure to improve organic search visibility and rankings. They conduct keyword research, analyze website performance metrics, and implement SEO strategies to increase traffic, engagement, and conversions.",
+    "Lower Salary Range": 500000,
+    "Upper Salary Range": 800000,
+    Experience: "1-3 years",
     "Highest Qualification": "Bachelor's Degree",
     "Work Type": "Full-time",
     Skills:
-      "SEO, SEM, social media marketing, content marketing, email marketing, Google Analytics, PPC advertising, digital strategy",
+      "SEO, keyword research, on-page optimization, off-page optimization, Google Analytics, SEMrush, Moz, content strategy",
     Responsibilities:
-      "Develop and implement digital marketing campaigns across various channels. Analyze and report on the performance of campaigns. Optimize website content and user experience. Stay up-to-date with digital marketing trends and best practices.",
+      "Conduct keyword research and analysis. Optimize website content and meta tags. Monitor search engine rankings and performance metrics. Develop and implement link building strategies.",
     Mode: "Remote",
   },
   {
-    "User Id": 3,
-    "Company Name": "Chennai Super Kings",
-    "Company Size": 50000,
-    "Company Website": "www.bing.com",
-    City: "Chennai",
+    "User Id": 2,
+    "Company Name": "Social Media Experts India",
+    "Company Size": 150,
+    "Company Website": "https://www.socialmediaexperts.in/",
+    City: "Bangalore",
     Country: "India",
-    "Job Role": "Software Engineer",
-    "Job Title": "Full Stack Developer",
+    "Job Role": "Digital Marketing Manager",
+    "Job Title": "Social Media Strategist",
     "Job Description":
-      "Full Stack Developers are responsible for designing, developing, and maintaining both the front-end and back-end of web applications. They work with various programming languages, frameworks, and databases to create scalable and responsive software solutions.",
-    "Lower Salary Range": 800000,
-    "Upper Salary Range": 1200000,
-    Experience: "3-7 years",
-    "Highest Qualification": "Master's Degree",
-    "Work Type": "Permanent",
+      "Social Media Strategists are responsible for developing and executing social media marketing strategies to increase brand awareness, engagement, and conversions. They analyze social media trends, create compelling content, and manage social media platforms to drive business objectives.",
+    "Lower Salary Range": 600000,
+    "Upper Salary Range": 1000000,
+    Experience: "3-5 years",
+    "Highest Qualification": "Bachelor's Degree",
+    "Work Type": "Full-time",
     Skills:
-      "JavaScript, HTML/CSS, Node.js, React, Angular, Python, SQL, MongoDB, RESTful APIs",
+      "Social media marketing, content creation, community management, social media analytics, paid social advertising, influencer marketing",
     Responsibilities:
-      "Develop and maintain web applications. Collaborate with cross-functional teams to define, design, and ship new features. Write clean, reusable, and efficient code. Troubleshoot and debug applications.",
+      "Develop social media marketing strategies. Create and curate engaging content for social media platforms. Monitor social media channels and engage with followers. Analyze performance metrics and optimize campaigns.",
     Mode: "On-site",
   },
+  {
+    "User Id": 3,
+    "Company Name": "Email Marketing India",
+    "Company Size": 100,
+    "Company Website": "https://www.emailmarketingindia.com/",
+    City: "New Delhi",
+    Country: "India",
+    "Job Role": "Digital Marketing Specialist",
+    "Job Title": "Email Marketing Manager",
+    "Job Description":
+      "Email Marketing Managers are responsible for developing and implementing email marketing campaigns to drive customer acquisition, retention, and engagement. They segment email lists, create personalized content, and analyze campaign performance to optimize results.",
+    "Lower Salary Range": 450000,
+    "Upper Salary Range": 750000,
+    Experience: "2-4 years",
+    "Highest Qualification": "Bachelor's Degree",
+    "Work Type": "Full-time",
+    Skills:
+      "Email marketing, marketing automation, segmentation, A/B testing, HTML/CSS, email deliverability, CRM integration",
+    Responsibilities:
+      "Develop email marketing campaigns and workflows. Segment email lists and personalize content. Monitor email deliverability and engagement metrics. Analyze campaign performance and make data-driven decisions.",
+    Mode: "Remote",
+  },
 ];
+
 
 const CandidateHomeScreen = () => {
   const openWebsite = () => {
@@ -183,7 +184,7 @@ const CandidateHomeScreen = () => {
               style={styles.logoImage}
               resizeMode="cover"
               source={{
-                uri: "https://i.pinimg.com/originals/c8/e9/e6/c8e9e65d1d2f9d2472dd64a875c5c238.jpg",
+                uri: "https://img.freepik.com/premium-vector/swan-color-gradient-logo-design_93835-1644.jpg",
               }}
             />
           </Card>
@@ -198,9 +199,8 @@ const CandidateHomeScreen = () => {
               >
                 <Text variant="bodyMedium" style={styles.title}>
                   <Icon size={20} source="clock" />
-                  {`${"  "}${
-                    candidateHomeScreenData[currentCandidateIndex]["Work Type"]
-                  }`}
+                  {`${"  "}${candidateHomeScreenData[currentCandidateIndex]["Work Type"]
+                    }`}
                 </Text>
                 <Divider style={styles.verticalDivider} />
                 <TouchableOpacity onPress={openWebsite}>
@@ -211,20 +211,17 @@ const CandidateHomeScreen = () => {
                 <Divider style={styles.verticalDivider} />
                 <Text variant="bodyMedium" style={styles.infoCardText}>
                   <Icon size={20} source="map-marker" />
-                  {`${"  "}${
-                    candidateHomeScreenData[currentCandidateIndex]["Mode"]
-                  }`}
+                  {`${"  "}${candidateHomeScreenData[currentCandidateIndex]["Mode"]
+                    }`}
                 </Text>
               </View>
               <Divider style={styles.horizontalDivider} />
               <View style={{ flexDirection: "row" }}>
                 <Text variant="bodyMedium" style={styles.infoCardText}>
                   <Icon size={20} source="office-building" />
-                  {`${"  "}${
-                    candidateHomeScreenData[currentCandidateIndex]["City"]
-                  }${", "}${
-                    candidateHomeScreenData[currentCandidateIndex]["Country"]
-                  }`}
+                  {`${"  "}${candidateHomeScreenData[currentCandidateIndex]["City"]
+                    }${", "}${candidateHomeScreenData[currentCandidateIndex]["Country"]
+                    }`}
                 </Text>
               </View>
             </Card.Content>
@@ -239,7 +236,7 @@ const CandidateHomeScreen = () => {
               <Text variant="bodyMedium" style={styles.infoCardText}>
                 {
                   candidateHomeScreenData[currentCandidateIndex][
-                    "Job Description"
+                  "Job Description"
                   ]
                 }
               </Text>
@@ -255,7 +252,7 @@ const CandidateHomeScreen = () => {
               <Text variant="bodyMedium" style={styles.infoCardText}>
                 {
                   candidateHomeScreenData[currentCandidateIndex][
-                    "Responsibilities"
+                  "Responsibilities"
                   ]
                 }
               </Text>
