@@ -1,76 +1,49 @@
-import React, { memo, useRef, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  ScrollView,
-  Animated,
-} from "react-native";
-import { Video, ResizeMode } from "expo-av";
-import {
-  Card,
-  Chip,
-  Menu,
-  Button,
-  Divider,
-  FAB,
-  Text,
-  Icon,
-} from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
-import { Navigation } from "../types";
+import React, { memo, useRef, useState, useEffect, useReducer } from 'react';
+import { View, StyleSheet, TouchableOpacity, Modal, ScrollView} from 'react-native';
+import { Video, ResizeMode } from 'expo-av';
+import { Card, Chip, Menu, Button, Divider, FAB, Text, Icon} from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
+import { Navigation } from '../types';
+import { transparent } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+import axios from 'axios';
+import { fetchJobs, fetchCandidateInfo} from "../core/utils";
 
 type Props = {
   navigation: Navigation;
 };
+const user_id = "e70c98c7-5cc8-4caf-a334-d3b20a47b73e"
 
 // Define videos and profile data
 const videos = [
   require("../assets/video1.mp4"),
   require("../assets/video2.mp4"),
+  require("../assets/video1.mp4"),
   require("../assets/video2.mp4"),
   require("../assets/video1.mp4"),
   require("../assets/video2.mp4"),
-  require("../assets/video2.mp4"), // Add more videos as needed
-  // Add more videos as needed
+  require("../assets/video1.mp4"),
+  require("../assets/video2.mp4"),
+  require("../assets/video1.mp4"),
+  require("../assets/video2.mp4"),
+  require("../assets/video1.mp4"),
+  require("../assets/video2.mp4")  // Add more videos as needed
 ];
 
-const profiles = [
-  require("../assets/data.json"),
-  require("../assets/data2.json"),
-  require("../assets/data.json"),
-  require("../assets/data2.json"),
-  require("../assets/data.json"),
-  require("../assets/data2.json"),
-  // Add more profile data as needed
-];
+
+
 
 const BasicInfoCard = ({ profileData }) => {
   return (
     <Card mode="elevated" style={styles.card}>
       <Card.Content>
-        <Text
-          variant="titleLarge"
-          style={styles.infoCardText}
-        >{`${profileData.first_name} ${profileData.last_name}`}</Text>
-        <Text variant="bodyLarge" style={styles.infoCardText}>
-          {profileData.headline}
-        </Text>
+        <Text variant="titleLarge" style={styles.infoCardText}>{`${profileData.firstName} ${profileData.lastName}`}</Text>
+        <Text variant="bodyLarge" style={styles.infoCardText}>{profileData.headline}</Text>
         <Divider style={{ marginVertical: 10 }} />
-        <Text variant="bodyMedium" style={styles.infoCardText}>
-          {profileData.about}
-        </Text>
+        <Text variant="bodyMedium" style={styles.infoCardText}>{profileData.about}</Text>
         <Divider style={{ marginVertical: 10 }} />
         <View style={styles.skillsContainer}>
           {profileData.skills.slice(0, 5).map((skill, index) => (
-            <Chip
-              key={index}
-              style={styles.skillChip}
-              textStyle={{ color: "white" }}
-            >
-              {skill}
-            </Chip>
+            <Chip key={index} style={styles.skillChip} textStyle={{ color: 'white' }}>{skill}</Chip>
           ))}
         </View>
         {/* Render other profile details as needed */}
@@ -83,9 +56,7 @@ const BasicInfoCard = ({ profileData }) => {
 const WorkExperienceCard = ({ profileData }) => {
   let workExperience = [];
   try {
-    workExperience = JSON.parse(
-      profileData.work_experience.replace(/NaN/g, "null")
-    );
+    workExperience = JSON.parse(profileData.workExperience.replace(/NaN/g, "null"))
   } catch (error) {
     console.error("Error parsing work experience:", error);
   }
@@ -93,21 +64,17 @@ const WorkExperienceCard = ({ profileData }) => {
   return (
     <Card style={styles.card}>
       <Card.Content>
-        <Text variant="titleLarge" style={styles.infoCardText}>
-          Work Experience
-        </Text>
-        <Divider style={{ marginVertical: 20 }} />
-        {workExperience.map((job, index) => (
-          <View key={index} style={{ marginBottom: 10 }}>
-            <Text style={styles.cardtextlarge}>{job.company}</Text>
-            <Text style={styles.cardtextmedium}>{job.jobTitle}</Text>
-            <Text style={styles.cardtextsmall}>{job.jobLocation}</Text>
-            <Text style={styles.cardtextsmall}>{job.jobDateRange}</Text>
-            {index !== workExperience.length - 1 && (
-              <View style={styles.separator} />
-            )}
-          </View>
-        ))}
+      <Text variant="titleLarge" style={styles.infoCardText}>Work Experience</Text>
+      <Divider style={{ marginVertical: 20 }} />
+      {workExperience.map((job, index) => (
+        <View key={index} style={{ marginBottom: 10 }}>
+          <Text style={styles.cardtextlarge} >{job.company}</Text>
+          <Text style={styles.cardtextmedium} >{job.jobTitle}</Text>
+          <Text style={styles.cardtextsmall} >{job.jobLocation}</Text>
+          <Text style={styles.cardtextsmall}>{job.jobDateRange}</Text>
+          {index !== workExperience.length - 1 && <View style={styles.separator} />}
+        </View>
+      ))}
       </Card.Content>
     </Card>
   );
@@ -117,9 +84,7 @@ const WorkExperienceCard = ({ profileData }) => {
 const EducationHistoryCard = ({ profileData }) => {
   let educationHistory = [];
   try {
-    educationHistory = JSON.parse(
-      profileData.education_history.replace(/NaN/g, "null")
-    );
+    educationHistory = JSON.parse(profileData.educationHistory.replace(/NaN/g, "null"));
   } catch (error) {
     console.error("Error parsing education history:", error);
   }
@@ -127,31 +92,23 @@ const EducationHistoryCard = ({ profileData }) => {
   return (
     <Card style={styles.card}>
       <Card.Content>
-        <Text variant="titleLarge" style={styles.infoCardText}>
-          Education History
-        </Text>
-        <Divider style={{ marginVertical: 20 }} />
-        {educationHistory.map((education, index) => (
-          <View key={index} style={{ marginBottom: 10 }}>
-            <Text style={styles.cardtextlarge}>{education.school}</Text>
-            <Text style={styles.cardtextmedium}>
-              Degree: {education.schoolDegree}
-            </Text>
-            <Text style={styles.cardtextsmall}>
-              Date Range: {education.schoolDateRange}
-            </Text>
-            <Text style={styles.cardtextsmall}>
-              Description: {education.schoolDescription}
-            </Text>
-            {index !== educationHistory.length - 1 && (
-              <View style={styles.separator} />
-            )}
-          </View>
-        ))}
+      <Text variant="titleLarge" style={styles.infoCardText}>Education History</Text>
+      <Divider style={{ marginVertical: 20 }} />
+      {educationHistory.map((education, index) => (
+        <View key={index} style={{ marginBottom: 10 }}>
+          <Text style={styles.cardtextlarge}>{education.school}</Text>
+          <Text style={styles.cardtextmedium}>Degree: {education.schoolDegree}</Text>
+          <Text style={styles.cardtextsmall}>Date Range: {education.schoolDateRange}</Text>
+          <Text style={styles.cardtextsmall}>Description: {education.schoolDescription}</Text>
+          {index !== educationHistory.length - 1 && <View style={styles.separator} />}
+        </View>
+      ))}
       </Card.Content>
     </Card>
   );
 };
+
+
 
 const RecruiterHomepage = ({ navigation }: Props) => {
   const videoRef = useRef(null);
@@ -159,38 +116,158 @@ const RecruiterHomepage = ({ navigation }: Props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [videoIndex, setVideoIndex] = useState(0);
   const [profileIndex, setProfileIndex] = useState(0);
+  // const navigation = useNavigation(); // Get navigation object
+  // const [profiles, setprofiles] = useState([
+  //   require("../assets/data.json"),
+  //   require("../assets/data2.json"),
+  // ]);
 
+  const [profiles, setProfiles] = useState([
+    {
+      birthday: null,
+      country: "India",
+      lastName: "Sanghvi",
+      projects: null,
+      highestQualification: "Bachelor of Technology (BTech)",
+      workMode: "Hybrid",
+      city: "Mumbai",
+      about:
+        "As an Engineering Undergrad , I am a visionary and highly motivated individual who continuously strives to add value in everything I do. With a passion for Business and Finance, I am determined to forge a successful career in this dynamic field. Solving business problems and strategizing effective solutions excites me, as I enjoy delving into market analysis and identifying potential gaps. Moreover, I believe in the prowess of technology to optimize operations and make them more efficient. \n\nWith a keen eye for detail and a drive for innovation, I am ready to bring my analytical skills and creative thinking to contribute to the success of any organization in the business and finance domain.",
+      workExperience:
+        '[{"company": "Deloitte", "jobTitle": "Summer Intern", "jobLocation": "Mumbai, Maharashtra, India \\u00b7 On-site", "jobDateRange": "Jun 2023 - Jul 2023", "jobDuration": "2 mos", "jobDescription": "\\u2022\\tStrategized for the on-rolling of a new service within the Cyber Security Domain, as part of a project at Deloitte\\n\\u2022\\tConducted Market Research to identify potential opportunities and gaps in the market\\n\\u2022\\tStitched together various components of the service to ensure seamless integration\\n\\u2022\\tCreated a compelling Elevator Pitch to effectively communicate the key features of the service"}, {"company": "Amazon", "jobTitle": "Operations Manager Intern", "jobLocation": "Thane, Maharashtra, India \\u00b7 On-site", "jobDateRange": "Jan 2024 - Present", "jobDuration": "2 mos", "jobDescription": NaN}]',
+      upperSalaryRange: 1700000,
+      educationHistory:
+        '[{"school": "SVKM\'s NMIMS Mukesh Patel School of Technology Management & Engineering", "schoolDegree": "Bachelor of Technology - BTech, Mechatronics, Robotics, and Automation Engineering", "schoolDateRange": "Jun 2020 - Apr 2024", "schoolDescription": NaN}]',
+      skills: [
+        "python (programming language)",
+        "microsoft excel",
+        "analytical skills",
+        "machine learning",
+        "data analysis",
+      ],
+      yearsOfExperience: 0,
+      jobRole: "Network Engineer",
+      jobType: "Contract",
+      headline:
+        "Operations Manager Intern @Amazon | Engineering Undergrad Student | Former RA Intern @Deloitte",
+      website: null,
+      languages: ["English,Punjabi"],
+      volunteerExperience: null,
+      certifications: null,
+      userId: "Ddd69432e-2e57-4527-8764-9b4f9a620521i",
+      firstName: "Divyanshu",
+      honorsAwards: null,
+      lowerSalaryRange: 1200000,
+      publications: null,
+    },
+    {
+      birthday: null,
+      country: "India",
+      lastName: "Sanghvi",
+      projects: null,
+      highestQualification: "Bachelor of Technology (BTech)",
+      workMode: "Hybrid",
+      city: "Mumbai",
+      about:
+        "As an Engineering Undergrad , I am a visionary and highly motivated individual who continuously strives to add value in everything I do. With a passion for Business and Finance, I am determined to forge a successful career in this dynamic field. Solving business problems and strategizing effective solutions excites me, as I enjoy delving into market analysis and identifying potential gaps. Moreover, I believe in the prowess of technology to optimize operations and make them more efficient. \n\nWith a keen eye for detail and a drive for innovation, I am ready to bring my analytical skills and creative thinking to contribute to the success of any organization in the business and finance domain.",
+      workExperience:
+        '[{"company": "Deloitte", "jobTitle": "Summer Intern", "jobLocation": "Mumbai, Maharashtra, India \\u00b7 On-site", "jobDateRange": "Jun 2023 - Jul 2023", "jobDuration": "2 mos", "jobDescription": "\\u2022\\tStrategized for the on-rolling of a new service within the Cyber Security Domain, as part of a project at Deloitte\\n\\u2022\\tConducted Market Research to identify potential opportunities and gaps in the market\\n\\u2022\\tStitched together various components of the service to ensure seamless integration\\n\\u2022\\tCreated a compelling Elevator Pitch to effectively communicate the key features of the service"}, {"company": "Amazon", "jobTitle": "Operations Manager Intern", "jobLocation": "Thane, Maharashtra, India \\u00b7 On-site", "jobDateRange": "Jan 2024 - Present", "jobDuration": "2 mos", "jobDescription": NaN}]',
+      upperSalaryRange: 1700000,
+      educationHistory:
+        '[{"school": "SVKM\'s NMIMS Mukesh Patel School of Technology Management & Engineering", "schoolDegree": "Bachelor of Technology - BTech, Mechatronics, Robotics, and Automation Engineering", "schoolDateRange": "Jun 2020 - Apr 2024", "schoolDescription": NaN}]',
+      skills: [
+        "python (programming language)",
+        "microsoft excel",
+        "analytical skills",
+        "machine learning",
+        "data analysis",
+      ],
+      yearsOfExperience: 0,
+      jobRole: "Network Engineer",
+      jobType: "Contract",
+      headline:
+        "Operations Manager Intern @Amazon | Engineering Undergrad Student | Former RA Intern @Deloitte",
+      website: null,
+      languages: ["English,Punjabi"],
+      volunteerExperience: null,
+      certifications: null,
+      userId: "Ddd69432e-2e57-4527-8764-9b4f9a620521i",
+      firstName: "Divyanshu",
+      honorsAwards: null,
+      lowerSalaryRange: 1200000,
+      publications: null,
+    },
+    {
+      birthday: null,
+      country: "India",
+      lastName: "Sanghvi",
+      projects: null,
+      highestQualification: "Bachelor of Technology (BTech)",
+      workMode: "Hybrid",
+      city: "Mumbai",
+      about:
+        "As an Engineering Undergrad , I am a visionary and highly motivated individual who continuously strives to add value in everything I do. With a passion for Business and Finance, I am determined to forge a successful career in this dynamic field. Solving business problems and strategizing effective solutions excites me, as I enjoy delving into market analysis and identifying potential gaps. Moreover, I believe in the prowess of technology to optimize operations and make them more efficient. \n\nWith a keen eye for detail and a drive for innovation, I am ready to bring my analytical skills and creative thinking to contribute to the success of any organization in the business and finance domain.",
+      workExperience:
+        '[{"company": "Deloitte", "jobTitle": "Summer Intern", "jobLocation": "Mumbai, Maharashtra, India \\u00b7 On-site", "jobDateRange": "Jun 2023 - Jul 2023", "jobDuration": "2 mos", "jobDescription": "\\u2022\\tStrategized for the on-rolling of a new service within the Cyber Security Domain, as part of a project at Deloitte\\n\\u2022\\tConducted Market Research to identify potential opportunities and gaps in the market\\n\\u2022\\tStitched together various components of the service to ensure seamless integration\\n\\u2022\\tCreated a compelling Elevator Pitch to effectively communicate the key features of the service"}, {"company": "Amazon", "jobTitle": "Operations Manager Intern", "jobLocation": "Thane, Maharashtra, India \\u00b7 On-site", "jobDateRange": "Jan 2024 - Present", "jobDuration": "2 mos", "jobDescription": NaN}]',
+      upperSalaryRange: 1700000,
+      educationHistory:
+        '[{"school": "SVKM\'s NMIMS Mukesh Patel School of Technology Management & Engineering", "schoolDegree": "Bachelor of Technology - BTech, Mechatronics, Robotics, and Automation Engineering", "schoolDateRange": "Jun 2020 - Apr 2024", "schoolDescription": NaN}]',
+      skills: [
+        "python (programming language)",
+        "microsoft excel",
+        "analytical skills",
+        "machine learning",
+        "data analysis",
+      ],
+      yearsOfExperience: 0,
+      jobRole: "Network Engineer",
+      jobType: "Contract",
+      headline:
+        "Operations Manager Intern @Amazon | Engineering Undergrad Student | Former RA Intern @Deloitte",
+      website: null,
+      languages: ["English,Punjabi"],
+      volunteerExperience: null,
+      certifications: null,
+      userId: "Ddd69432e-2e57-4527-8764-9b4f9a620521i",
+      firstName: "Divyanshu",
+      honorsAwards: null,
+      lowerSalaryRange: 1200000,
+      publications: null,
+    },
+  ]);
+
+  const [joblist, setJobs] = useState([]);
+
+  useEffect(() => {
+    fetchJobs(user_id).then((responseData: any) => {
+      setJobs(responseData["jobs"]);
+    });
+  }, []);
+ 
+
+  const filterJob = (jobId) => {
+    fetchCandidateInfo(jobId)
+      .then((responseData: any) => {
+        console.log("Profiles before: ", responseData);
+        setProfiles(responseData);
+        console.log("profiles aftr: ", profiles);
+        setVideoIndex(0);
+        setProfileIndex(0);
+      })
+      .catch((error: any) => {
+        console.error("Error:", error);
+      });
+  };
   const profileData = profiles[profileIndex];
-
   const [likeIsVisible, setLikeIsVisible] = useState(false);
   const [dislikeIsVisible, setDislikeIsVisible] = useState(false);
 
-  const [animation] = useState(new Animated.Value(0));
-
-  const flashStyle = {
-    opacity: animation.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [0, 0, 1],
-    }),
-  };
-
   const handleHeartPress = () => {
     console.log("Heart button pressed");
-
-    animation.setValue(0);
-
-    Animated.timing(animation, {
-      toValue: 1,
-      duration: 2000,
-      useNativeDriver: true,
-    }).start();
-
     setLikeIsVisible(true);
-
     setTimeout(() => {
       setLikeIsVisible(false);
     }, 1000);
-
     // Move to the next video and profile data
     if (videoIndex < videos.length - 1 && profileIndex < profiles.length - 1) {
       setVideoIndex(videoIndex + 1);
@@ -204,20 +281,12 @@ const RecruiterHomepage = ({ navigation }: Props) => {
 
   const handleCancelPress = () => {
     console.log("Cancel button pressed");
-
-    animation.setValue(0);
-    Animated.timing(animation, {
-      toValue: 1,
-      duration: 1500,
-      useNativeDriver: true,
-    }).start();
-
     setDislikeIsVisible(true);
 
     setTimeout(() => {
       setDislikeIsVisible(false);
     }, 1000);
-
+    // Move to the next video and profile data
     if (videoIndex < videos.length - 1 && profileIndex < profiles.length - 1) {
       setVideoIndex(videoIndex + 1);
       setProfileIndex(profileIndex + 1);
@@ -275,6 +344,7 @@ const RecruiterHomepage = ({ navigation }: Props) => {
         shouldPlay={isPlaying}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
       />
+
       <TouchableOpacity
         style={styles.overlay}
         onPress={togglePlay}
@@ -300,17 +370,28 @@ const RecruiterHomepage = ({ navigation }: Props) => {
             </Button>
           }
         >
-          <Menu.Item onPress={() => { }} title="Item 1" />
-          <Menu.Item onPress={() => { }} title="Item 2" />
-          <Divider />
-          <Menu.Item onPress={() => { }} title="Item 3" />
+          {joblist.length > 0 && (
+            <>
+              {joblist.map((job, index) => (
+                <React.Fragment key={job.jobId}>
+                  <Menu.Item
+                    onPress={() => {
+                      filterJob(job.jobId);
+                    }}
+                    title={`${job.jobTitle}`}
+                  />
+                  {index < joblist.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
+            </>
+          )}
         </Menu>
       </View>
       <View style={styles.textContainer}>
         <Text
           variant="headlineLarge"
           style={styles.videotext}
-        >{`${profileData.first_name} ${profileData.last_name}`}</Text>
+        >{`${profileData.firstName} ${profileData.lastName}`}</Text>
         <Text variant="bodyMedium" style={styles.videotext}>
           {profileData.headline}
         </Text>
@@ -338,6 +419,7 @@ const RecruiterHomepage = ({ navigation }: Props) => {
         icon="close-thick"
         onPress={handleCancelPress}
       />
+
       {/* <Button title="Open Profile" onPress={() => setModalVisible(true)} /> */}
       <Modal visible={modalVisible} animationType="slide">
         <ScrollView contentContainerStyle={styles.modalContainer}>
@@ -351,10 +433,10 @@ const RecruiterHomepage = ({ navigation }: Props) => {
                 Close
               </Button>
               <BasicInfoCard profileData={profileData} />
-              {profileData.work_experience.length > 0 && (
+              {profileData.workExperience.length > 0 && (
                 <WorkExperienceCard profileData={profileData} />
               )}
-              {profileData.education_history.length > 0 && (
+              {profileData.educationHistory.length > 0 && (
                 <EducationHistoryCard profileData={profileData} />
               )}
               {/* Add more cards for other information */}
@@ -362,24 +444,24 @@ const RecruiterHomepage = ({ navigation }: Props) => {
           )}
         </ScrollView>
       </Modal>
-    </View >
+    </View>
   );
 };
 
 export default memo(RecruiterHomepage);
 
 const styles = StyleSheet.create({
-  flashIconContainer: {
-    alignItems: "center",
-    paddingVertical: "89%",
-    backgroundColor: "#fff",
-    zIndex: 2000,
-  },
   container: {
     flex: 1,
   },
   video: {
     flex: 1,
+  },
+  flashIconContainer: {
+    alignItems: "center",
+    paddingVertical: "89%",
+    backgroundColor: "#fff",
+    zIndex: 2000,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

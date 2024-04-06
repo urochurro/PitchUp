@@ -37,7 +37,7 @@ const LoginScreen = ({ navigation }: Props) => {
     const data = { 'email': email.value, 'password': password.value };
 
     axios
-      .post("http://192.168.29.167:5000/login/", data)
+      .post("http://192.168.29.167:3000/login/", data)
       .then(function (response) {
         // handle success
         console.log(response.data);

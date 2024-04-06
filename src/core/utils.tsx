@@ -35,11 +35,39 @@ export const companyNameValidator = (name: string) => {
 
   return '';
 };
-
-export function fetchJobData(): Promise<any> {
-  return axios.get("http://192.168.29.167:3000/getCandidateDetails/V92fc2631-3710-40d6-b78c-a427d17fbd56a")
+export function fetchJobs(userId): Promise<any> {
+  return axios.get("http://10.0.0.10:3000/allJobs/"+userId)
     .then((response: AxiosResponse) => {
       const responseData = response.data;
+      // console.log('Data fetched:', responseData);
+      
+      return responseData;
+    })
+    .catch((error: any) => {
+      console.error('Error fetching data:', error);
+      return {};
+    });
+}
+
+export function fetchCandidateInfo(jobId): Promise<any> {
+  return axios.get("http://10.0.0.10:3000/getCandidatesByJobRole/"+jobId)
+    .then((response: AxiosResponse) => {
+      const responseData = response.data;
+      // console.log('Data fetched:', responseData);
+      
+      return responseData;
+    })
+    .catch((error: any) => {
+      console.error('Error fetching data:', error);
+      return {};
+    });
+}
+
+
+export function fetchCandidateProfile(userId): Promise<any> {
+  return axios.get("http://192.168.29.167:3000/getCandidateProfile/"+userId)
+    .then((response: AxiosResponse) => {
+      const responseData = response.data;      
       return responseData;
     })
     .catch((error: any) => {

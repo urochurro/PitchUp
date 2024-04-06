@@ -18,47 +18,42 @@ import {
 import Header from '../components/Header';
 import { useLogin } from "../context/LoginProvider";
 import axios from "axios";
+import { fetchCandidateProfile } from "../core/utils";
 const { width } = Dimensions.get("window");
 const cardWidth = width * 0.9;
 
+
 const CandidateProfileScreen = () => {
+    const { userId } = useLogin();
+    // const userId = "e70c98c7-5cc8-4caf-a334-d3b20a47b73e"
     // const profileData = require("../assets/data.json");
-    let profileData = {};
-    const { userId } = useLogin()
+    const [profileData, setProfileData] = useState([]);
     useEffect(() => {
-        fetch('http://192.168.29.167:5000/getCandidateProfile/Mdfa765cb-a2b3-4757-9417-e00982945f53h')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                
-                // Handle the retrieved data here
-                profileData = data
-                // You can directly use the data here for rendering or other purposes
-            })
-            .catch(error => {
-                // Handle errors here
-                console.error('Error fetching data:', error);
-            });
+        fetchCandidateProfile(userId).then((responseData: any) => {
+            setProfileData(responseData);
+        });
     }, []);
+
     let workExperience = [];
-    // try {
-    //     workExperience = JSON.parse(
-    //         profileData.work_experience.replace(/NaN/g, "null")
-    //     );
-    // } catch (error) {
-    //     console.error("Error parsing work experience:", error);
-    // }
     let educationHistory = [];
-    // try {
-    //     educationHistory = JSON.parse(
-    //         profileData.education_history.replace(/NaN/g, "null")
-    //     );
-    // } catch (error) {
-    //     console.error("Error parsing education history:", error);
-    // }
+    try {
+        workExperience = profileData["workExperience"] ? JSON.parse(profileData["workExperience"].replace(/NaN/g, "null")) : [];
+        educationHistory = profileData["educationHistory"] ? JSON.parse(profileData["educationHistory"].replace(/NaN/g, "null")) : [];
+    } catch (error) {
+        console.error("Error parsing work experience or education history:", error);
+    }
+
+    // fetchCandidateProfile(userId)
+    //     .then((responseData: any) => {
+    //         setProfileData(responseData);
+    //     })
+    //     .catch((error: any) => {
+    //         console.error("Error:", error);
+    //     });
+
     const openWebsite = () => {
         const website =
-            profileData["Company Website"];
+            profileData["website"];
         Linking.openURL(website).catch((error) =>
             console.error(
                 profileData["Company Website"],
@@ -72,6 +67,22 @@ const CandidateProfileScreen = () => {
         <View style={styles.backgroundContainer}>
             <Header color='#000'>My Profile</Header>
             <ScrollView contentContainerStyle={styles.container}>
+                <Card mode="elevated" style={styles.card}>
+                    <Card.Content>
+                        <Text variant="titleLarge" style={styles.infoCardText}>{`${profileData["firstName"]} ${profileData["lastName"]}`}</Text>
+                        <Text variant="bodyLarge" style={styles.infoCardText}>{profileData["headline"]}</Text>
+                        <Divider style={{ marginVertical: 10 }} />
+                        <Text variant="bodyMedium" style={styles.infoCardText}>{profileData["about"]}</Text>
+                        <Divider style={{ marginVertical: 10 }} />
+                        <View style={styles.skillsContainer}>
+                            {profileData["skills"] && profileData["skills"].slice(0, 5).map((skill, index) => (
+                                <Chip key={index} style={styles.skillChip} textStyle={{ color: 'white' }}>{skill}</Chip>
+                            ))}
+
+                        </View>
+                        {/* Render other profile details as needed */}
+                    </Card.Content>
+                </Card>
                 <Card mode="elevated" style={styles.segmentedCard}>
                     <Card.Content>
                         <View
@@ -109,7 +120,6 @@ const CandidateProfileScreen = () => {
                         </View>
                     </Card.Content>
                 </Card>
-
                 {workExperience && workExperience.length > 0 && (
                     <Card style={styles.card}>
                         <Card.Content>
@@ -159,6 +169,7 @@ const CandidateProfileScreen = () => {
                         </Card.Content>
                     </Card>
                 )}
+                <View style={styles.bottomSpace} />
             </ScrollView>
         </View >
     );
@@ -167,30 +178,26 @@ const CandidateProfileScreen = () => {
 export default memo(CandidateProfileScreen);
 
 const styles = StyleSheet.create({
-    header: {
-        height: 50,
-        backgroundColor: "white",
-    },
     backgroundContainer: {
         paddingTop: 40,
         backgroundColor: "#fff",
         color: "#fff",
     },
     container: {
-        paddingHorizontal: 20,
+        padding: 20,
         backgroundColor: "#fff",
     },
-    // logoCard: {
-    //     height: cardWidth,
-    //     width: "100%",
-    //     justifyContent: "center",
-    //     backgroundColor: "white",
-    //     marginVertical: 10,
-    // },
-    // logoImage: {
-    //     width: "100%",
-    //     height: "100%",
-    // },
+    skillsContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+    },
+    skillChip: {
+        margin: 2,
+        paddingVertical: 0,
+        backgroundColor: "#083767",
+        color: "white",
+    },
     segmentedCard: {
         backgroundColor: "white",
         width: "100%",
@@ -235,7 +242,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#083767",
     },
     bottomSpace: {
-        height: 40,
+        height: 70,
     },
     cardtextlarge: {
         fontSize: 20,
