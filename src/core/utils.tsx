@@ -65,7 +65,7 @@ export function fetchCandidateInfo(jobId): Promise<any> {
 
 
 export function fetchCandidateProfile(userId): Promise<any> {
-  return axios.get("http://192.168.29.167:3000/getCandidateProfile/"+userId)
+  return axios.get("http://10.0.0.10:3000/getCandidateProfile/"+userId)
     .then((response: AxiosResponse) => {
       const responseData = response.data;      
       return responseData;

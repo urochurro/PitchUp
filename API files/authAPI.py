@@ -391,3 +391,51 @@ def getCandidatesByJobRole(job_id: str):
         raise HTTPException(
             status_code=404, detail="Candidates not found for the specified job role"
         )
+
+
+@app.get("/getCandidateProfile/{id}")
+def get_info(id: str):
+    with driver.session() as session:
+        result = session.run(
+            "MATCH (n:Candidate {userId: $userId}) RETURN n", {"userId": id}
+        )
+        candidate = [dict(record["n"]) for record in result.data()][0]
+        properties_to_include = [
+            "birthday",
+            "country",
+            "lastName",
+            "projects",
+            "highestQualification",
+            "workMode",
+            "city",
+            "about",
+            "workExperience",
+            "upperSalaryRange",
+            "educationHistory",
+            "skills",
+            "yearsOfExperience",
+            "jobRole",
+            "jobType",
+            "headline",
+            "website",
+            "languages",
+            "volunteerExperience",
+            "certifications",
+            "userId",
+            "firstName",
+            "honorsAwards",
+            "lowerSalaryRange",
+            "publications",
+        ]
+    cleaned_candidate = {}
+
+    for prop in properties_to_include:
+        if isinstance(candidate.get(prop), float) and pd.isna(candidate.get(prop)):
+            cleaned_candidate[prop] = None
+        else:
+            cleaned_candidate[prop] = candidate[prop]
+
+    if cleaned_candidate:
+        return cleaned_candidate
+    else:
+        raise HTTPException(status_code=404, detail="Info not found")

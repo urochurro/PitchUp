@@ -15,4 +15,5 @@ export { default as SettingsScreen } from './settingsScreen';
 export { default as CandidateHomeScreen } from './CandidateHomeScreen';
 export { default as RecruiterMatchScreen } from './RecruiterMatchScreen';
 export { default as CandidateMatchScreen } from './CandidateMatchScreen';
+export { default as CandidateProfileScreen } from './CandidateProfileScreen';
 
